@@ -9,6 +9,11 @@
 		margin-bottom: 37px;
 	}
 
+	&__img {
+		width: 100%;
+    height: 100%;
+	}
+
 	&__title {
 		max-width: 280px;
 		font-weight: bold;
@@ -26,12 +31,20 @@
 		color: $black;
 		margin-bottom: 8px;
 		margin-left: 40px;
+
+		@media (max-width: 768px) {
+      margin-left: 38px;
+    }
 	}
 
 	&__selector {
 		display: flex;
 		justify-content: space-between;
 		margin-top: 22px;
+
+		@media (max-width: 768px) {
+      margin-top: 32px;
+    }
 
 		&-btn {
 			border: 2.5px solid #070707;
@@ -107,6 +120,10 @@
 		font-size: 34px;
 		line-height: 41px;
 		color: $black;
+
+		@media (max-width: 768px) {
+      padding-bottom: 50px;
+    }
 	}
 
 	&__message {
@@ -193,10 +210,18 @@
 		padding-top: 20px;
 		margin-top: 0;
 		margin-bottom: 15px;
+
+		@media (max-width: 768px) {
+			margin-bottom: 19px;
+		}
 	}
 
 	&__item {
 		margin-bottom: 44px;
+
+		@media (max-width: 768px) {
+			margin-bottom: 40px;
+		}
 
 		&:nth-child(3) > .skills__loader > .skills__loader-progress {
 			margin-right: 20px;	
@@ -222,6 +247,10 @@
 			line-height: 17px;
 			color: #828282;
 			margin-right: 13px;
+
+			@media (max-width: 768px) {
+				margin-right: 10px;
+			}
 		}
 
 		&-scale {
@@ -229,6 +258,10 @@
 			height: 9px;
 			background-color: #E5E5E5;
 			position: relative;
+
+			@media (max-width: 785px) {
+				width: 111px;
+			}
 			
 			&::before {
 				content: '';
@@ -240,23 +273,23 @@
 			}
 
 			&_html::before {
-				width: 121px;
+				width: 85%;
 			}
 
 			&_css::before {
-				width: 71px;
+				width: 50%;
 			}
 
 			&_js::before {
-				width: 31px;
+				width: 21%;
 			}
 
 			&_git::before {
-				width: 18px;
+				width: 13%;
 			}
 
 			&_figma::before {
-				width: 113px;
+				width: 80%;
 			}
 		}
 	}

@@ -21,7 +21,12 @@
           <p class="presentation__text">Future front-end developer 23 years old, Tolyatti</p>
         </div>
         <div class="presentation__slider">
-          <img class="presentation__img" width="1000" height="465" src="../../static/images/my_photo.jpg" alt="My photo">
+          <picture class="presentation__img-box">
+            <source srcset="../../static/images/my_photo-mobile.jpg, ../../static/images/my_photo-mobile@2.jpg 2x" media="(max-width: 700px)">
+            <source srcset="../../static/images/my_photo-tablet.jpg, ../../static/images/my_photo-tablet@2.jpg 2x" media="(max-width: 850px)">
+            <source srcset="../../static/images/my_photo.jpg, ../../static/images/my_photo@2.jpg 2x">
+            <img class="presentation__img" src="../../static/images/poster.png" width="1000" height="465" alt="My photo"/>
+          </picture>
           <div class="presentation__selector">
             <button class="presentation__selector-btn presentation__selector-btn_back">
               <svg width="15" height="24" viewBox="0 0 15 24" xmlns="http://www.w3.org/2000/svg">
@@ -154,7 +159,12 @@
         <div class="portfolio__content container">
           <h2 class="portfolio__title">Portfolio</h2>
           <div class="portfolio__img-box">
-            <img class="portfolio__img" width="1000" height="604" src="../../static/images/Portfolio.png" alt="Portfolio">
+            <picture class="portfolio__img-box">
+              <source srcset="../../static/images/Portfolio-mobile.jpg, ../../static/images/Portfolio-mobile@2.jpg 2x" media="(max-width: 700px)">
+              <source srcset="../../static/images/Portfolio-tablet.jpg, ../../static/images/Portfolio-tablet@2.jpg 2x" media="(max-width: 850px)">
+              <source srcset="../../static/images/Portfolio.jpg, ../../static/images/Portfolio@2.jpg 2x">
+              <img class="portfolio__img" src="../../static/images/poster.png" width="1000" height="604" alt="Portfolio"/>
+            </picture>
             <button class="portfolio__btn portfolio__btn_back">
               <svg width="43" height="61" viewBox="0 0 43 61" xmlns="http://www.w3.org/2000/svg">
                 <rect x="30.1641" y="52" width="29.9303" height="5.42502" rx="2.71251" transform="rotate(-135 30.1641 52)" />

@@ -1,14 +1,14 @@
 alert("Программа 1");
-function f1() {
+function filter() {
 	let max = +prompt("Введите максимальное число");
 
 	if (Number.isNaN(max)) {
 		alert("Ошибка! Вы не ввели число");
-		f1();
+		filter();
 
 	} else {
 		for(let i=1; i<=max; i++) {
-			if(i % 4!=0) {
+			if(i % 4) {
 				console.log(i);
 			}
 		}
@@ -16,19 +16,19 @@ function f1() {
 	}
 }
 
-f1();
+filter();
 
 alert("Программа 2");
-function f2() {
-	let num = +prompt("Введите любое число");
+function check() {
+	let num = +prompt("Введите любое число до 100");
 
 	if (num >= 100) {
 		alert("Ошибка! Вы ввели слишком большое число");
-		f2();
+		check();
 
   } else if(Number.isNaN(num)) {
 		alert("Ошибка! Вы не ввели число");
-		f2();
+		check();
 
   } else {
 		console.log(num);
@@ -36,24 +36,24 @@ function f2() {
 	}
 }
 
-f2();
+check();
 
 alert("Программа 3");
-function f3() {
+function sumTimer() {
 	let t = +prompt("Введите любое число");
 
 	if(Number.isNaN(t)) {
 		alert("Ошибка! Вы не ввели число");
-		f3();
+		sumTimer();
 
   } else {
 		console.log(t);
 
-		let timerId = setInterval(function f3() {
+		let timerId = setInterval(function sumTimer() {
 			console.log(t+=3);
 		}, 3000)
 
-		setTimeout(function f3() {
+		setTimeout(function sumTimer() {
 			clearInterval(timerId);
 			alert("Таймер закончил работу");
 		}, 9000)
@@ -61,4 +61,4 @@ function f3() {
 	
 }
 
-f3();
+sumTimer();

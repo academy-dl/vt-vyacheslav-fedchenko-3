@@ -9,6 +9,11 @@
 	padding-bottom: 15px; 
 	margin-top: 15px;
 	margin-bottom: 39px;
+	
+	@media (max-width: 768px) {
+		padding-bottom: 13px;
+		margin-top: 17px;
+	}
 
   &:after{
 		content:"";
@@ -17,7 +22,12 @@
 		right: 1.9%;
     width: 96.1%;
 		border-bottom: solid 1px #828282;		
-}
+
+		@media (max-width: 768px) {
+      right: 8%;
+      width: 84%;
+    }
+  }
 
   &_hover {
     transition: color .4s;
@@ -35,6 +45,10 @@
 		font-weight: bold;
 		color: #070707;
 		margin-left: 10px;
+
+		@media (max-width: 768px) {
+      margin-left: 0;
+    }
 
 		&:hover {
 			color: #828282;
