@@ -1,0 +1,65 @@
+@import "../var";
+
+.header {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+  font-size: 18px;
+	line-height: 22px;
+	padding-bottom: 15px; 
+	margin-top: 15px;
+	margin-bottom: 39px;
+
+  &:after{
+		content:"";
+		position:absolute;
+		bottom:0;
+		right: 1.9%;
+    width: 96.1%;
+		border-bottom: solid 1px #828282;		
+}
+
+  &_hover {
+    transition: color .4s;
+    opacity: 1;
+
+    &:hover {
+			color: #070707;
+			cursor: pointer;
+    }
+	}
+	
+	&__home-link {
+		display: flex;
+		align-items: center;
+		font-weight: bold;
+		color: #070707;
+		margin-left: 10px;
+
+		&:hover {
+			color: #828282;
+    }
+	}
+
+  &__nav {
+
+    &-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    &-item {
+			font-weight: bold;
+			color: #828282;
+			margin-left: 21px;
+    }
+	}
+
+	&__sing-in-button,
+	&__register-button {
+		padding: 0;
+		border: none;
+    background-color: transparent;
+	}
+}

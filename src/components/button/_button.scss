@@ -1,0 +1,60 @@
+@import "../var";
+
+.button {
+  padding: 7px 17px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  color: $white;
+  cursor: pointer;
+  border: 2.5px solid #070707;
+  box-sizing: border-box;
+  border-radius: 30px;
+  transition: color .4s;
+  transition: background-color .4s;
+
+  &_white {
+		color: $black;
+		background-color: $white;
+		
+		&:hover {
+			color: $white;
+			background-color: $black;
+		}
+  }
+
+  &_black {
+    padding: 7px 26px;
+		color: $white;
+		background-color: $black;
+		
+		&:hover {
+			color: $black;
+			background-color: $white;
+		}
+  }
+
+  &_modal {
+    background-color: $white;
+    color: #E5E5E5;
+    border-color: #E5E5E5;
+    transition: all .4s;
+
+    &:hover {
+			color: #828282;
+			border-color: #828282;
+    }
+    
+    &:active {
+			color: $black;
+			border-color: $black;
+    }
+  }
+
+  &:disabled {
+		background-color: $white;
+		color: #E5E5E5;
+		border-color: #E5E5E5;
+    cursor: not-allowed;
+  }
+}
