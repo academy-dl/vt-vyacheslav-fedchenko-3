@@ -1,0 +1,58 @@
+<footer class="footer">
+	<div class="footer__content container">
+		<div class="footer__content">
+			<h2 class="footer__title">Contacts</h2>
+			<p class="footer__text">Want to know more or just chat? You are welcome!</p>
+			@@include('button/index.html', { 
+				"type": "submit", 
+				"class": "footer__button footer__button_message-js button_black", "text": "Send message" 
+			})
+		</div>
+		<ul class="footer__link-list list-point-none">
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "https://www.instagram.com/vyacheslav__fedchenko",
+					"class": "footer__link button_white",
+					"text": "Instagram"
+				})
+			</li>
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "https://vk.com/freddomorelli",
+					"class": "footer__link button_white",
+					"text": "Vk"
+				})
+			</li>
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "https://t.me/Vyacheslav_Fedchenko",
+					"class": "footer__link button_white",
+					"text": "Telegram"
+				})
+			</li>
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "mailto:fredd0@mail.ru",
+					"class": "footer__link button_white",
+					"text": "Mail"
+				})
+			</li>
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "https://github.com/FedchenkoVyacheslav",
+					"class": "footer__link button_white",
+					"text": "GitHub"
+				})
+			</li>
+			<li class="footer__link-item">
+				@@include('link-button/index.html', {
+					"href": "tel:+79270296623",
+					"class": "footer__link button_white",
+					"text": "Phone"
+				})
+			</li>
+		</ul>
+		<p class="footer__text-bottom">Design by <a class="footer__text-link" href="https://directline.digital/vacancies/dl-academy/">DL Academy</a></p>
+		<p class="footer__text-bottom">Program code from Antonina</a></p>
+  </div>
+</footer>

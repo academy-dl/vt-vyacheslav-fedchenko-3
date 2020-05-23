@@ -1,0 +1,284 @@
+@import "../components/var";
+
+body {
+  font-family: "Gilroy", "Geneva", sans-serif;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: $black;
+}
+
+p {
+  line-height: 22px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+input {
+  -webkit-appearance: none;
+  border-radius: 0px;
+}
+
+/* Фрагмент кода предоставлен лектором */
+
+.hidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1040px;
+  padding: 0 20px;
+
+  @media (max-width: 768px) {
+    padding: 0 60px;
+  }
+
+  @media (max-width: 376px) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: 360px) {
+    padding: 0 10px;
+  }
+}
+
+.list-point-none {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Forms */
+
+.form {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: $black;
+  background-color: $white;
+  border: 2.5px solid #070707;
+  
+  &_modal {
+    padding: 18px 38px 39px;
+    min-width: 680px;
+    margin: auto;
+
+    &-sing-in {
+      min-width: 370px;
+    }
+
+    @media (max-width: 1050px) {
+      min-width: 100%;
+      padding: 22px 56px 42px 56px;
+    }
+
+    @media (max-width: 680px) {
+      padding: 10px 25px 25px;
+    }
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 43px;
+    min-width: 100%;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      min-width: 100%;
+      padding-top: 35px;
+    }
+
+    &-short {
+      width: 48.5%;
+  
+      @media (max-width: 600px) {
+        width: 100%;
+        position: relative;
+      }
+  
+      &_2 {
+        @media (max-width: 600px) {
+          margin-bottom: 36px;
+        }
+      }
+    }
+  }
+
+  &__label {
+    top: 20px;
+    position: absolute;
+
+    @media (max-width: 600px) {
+      top: 16px;
+    }
+
+    &_2 {
+      @media (max-width: 600px) {
+        top: -20px;
+      }
+    }
+
+    &-star {
+      color: red;
+    }
+  }
+
+  &__input {
+    padding: 12.5px 19px;
+    width: 100%;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
+    background-color: $white;
+    border: 2px solid #E5E5E5;
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+      line-height: 19px;
+      padding: 14px 19px;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+      line-height: 16px;
+      padding: 11px 14px;
+    }
+
+    transition: border-color .4s;
+
+    &:hover {
+      border: 2px solid #828282;
+    }
+
+    &:active {
+      border: 2px solid #828282;
+    }
+
+    &-message {
+      min-height: 150px;
+      width: 100%;
+      resize: none;
+    }
+  }
+
+  &__submit-button {
+    margin-top: 20px;
+
+    &_2 {
+      margin-top: 30px;
+    }
+    
+    @media (max-width: 600px) {
+      margin-top: 15px;
+    }
+  }
+
+  &__checkbox {
+    &:checked + .form__checkbox-indicator::after {
+      background: url(../static/images/Сheck.svg) no-repeat;
+      background-position: right;
+      background-position-y: top;
+
+      @media (max-width: 600px) {
+        background-size: 13px;
+      }
+    }
+
+    &-label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-top: 20px;
+      cursor: pointer;
+  
+      @media (max-width: 600px) {
+        padding-top: 18px;
+      }
+    }
+
+    &-indicator {
+      margin-right: 15px;
+      padding-left: 34px;
+      padding-top: 2px;
+      
+  
+      @media (max-width: 600px) {
+        padding-left: 29px;
+        margin-right: 0;
+        padding-top: 0;
+      }
+  
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        border: 2px solid #E5E5E5;
+        border-radius: 3px;
+        margin-top: 19px;
+        transition: border-color 0.4s;
+
+        @media (max-width: 600px) {
+          height: 17px;
+          width: 17px;
+          margin-top: 14px;
+        }
+      }
+      
+      &:hover::after {
+        border: 2px solid #828282;
+      }     
+    }
+  }
+}
+
+.form__checkbox:checked + .form__checkbox-indicator::after{
+  transition: border-color 0.4s;
+  border: 2px solid $black;
+}
+
+input:focus + .form__checkbox-indicator {
+  outline-color: rgb(77, 144, 254);
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+}
+
+// Подключение компонентов
+
+@import "./button/button";
+@import "./header/header";
+@import "./footer/footer";
+@import "./link-button/link-button";
