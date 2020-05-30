@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer footer_2">
 	<div class="footer__content container">
 		<div class="footer__content">
 			<h2 class="footer__title">Contacts</h2>
@@ -56,3 +56,49 @@
 		<p class="footer__text-bottom">Program code from Antonina</a></p>
   </div>
 </footer>
+<div class="modal modal_close modal_message-js">
+	<div class="modal__content">
+		<form class="form form_modal" action="https://form-data-dl.herokuapp.com/api/messages" method="POST">
+			<div class="form__row">
+				<div class="form__row-short form__row-short_2">
+					<label class="form__label form__label_2" for="form-name-send-message">What is your name? <span class="form__label-star">*</span></label>
+					<input class="form__input form__input_message-js" id="form-name-send-message" type="text" name="name">
+				</div>
+				<div class="form__row-short">
+					<label class="form__label form__label_2" for="form-message-send-message">Message subject <span class="form__label-star">*</span></label>
+					<input class="form__input" id="form-message-send-message" type="text" name="message">
+				</div>
+			</div>
+			<div class="form__row">
+				<div class="form__row-short form__row-short_2">
+					<label class="form__label form__label_2" for="form-email-send-message">Your Email <span class="form__label-star">*</span></label>
+					<input class="form__input" id="form-email-send-message" type="email" name="email">
+				</div>
+				<div class="form__row-short">
+					<label class="form__label form__label_2" for="form-phone-send-message">Your mobile phone <span class="form__label-star">*</span></label>
+					<input class="form__input" id="form-phone-send-message" type="text" name="phone">
+				</div>
+			</div>
+			<div class="form__row">
+				<label class="form__label" for="form-discuss-send-message">What do you want to discuss with me?</label>
+				<textarea class="form__input form__input-message" id="form-discuss-send-message" name="message"></textarea>
+			</div>
+			<label class="form__checkbox-label">
+				<input class="form__checkbox hidden" type="checkbox" value="accept" name="accept-button">
+				<span class="form__checkbox-indicator">Clicking on the button, you consent to the processing of your personal data.</span>
+			</label>
+			@@include('button/index.html', {
+				"type": "submit",
+				"class": "form__submit-button button_modal",
+				"text": "Send"
+				})
+		</form>
+		<button type="button" class="modal__close modal__close_message-js">
+			<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+				<rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
+				<rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
+			</svg>
+			</svg>
+		</button>
+	</div>
+</div>

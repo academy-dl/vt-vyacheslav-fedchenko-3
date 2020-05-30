@@ -13,7 +13,9 @@
     <meta name="keywords" content="Portfolio, front-end, developer, web-developer, javaScript, CSS, HTML">
   </head>
   <body>
-    @@include('header/index.html')
+    @@include('header/index.html', { 
+      "class": "header"
+    })
     <main>
       <section class="presentation container">
         <div class="presentation__content">
@@ -25,7 +27,7 @@
             <source srcset="../../static/images/my_photo-mobile.jpg, ../../static/images/my_photo-mobile@2.jpg 2x" media="(max-width: 700px)">
             <source srcset="../../static/images/my_photo-tablet.jpg, ../../static/images/my_photo-tablet@2.jpg 2x" media="(max-width: 850px)">
             <source srcset="../../static/images/my_photo.jpg, ../../static/images/my_photo@2.jpg 2x">
-            <img class="presentation__img" src="../../static/images/poster.png" width="1000" height="465" alt="My photo"/>
+            <img class="presentation__img" src="../../static/images/my_photo.jpg" width="1000" height="465" alt="My photo"/>
           </picture>
           <div class="presentation__selector">
             <button class="presentation__selector-btn presentation__selector-btn_back">
@@ -36,24 +38,32 @@
             </button>
             <ul class="presentation__selector-pages list-point-none">
               <li class="presentation__selector-item presentation__selector-item_active">
-                <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="5" cy="5.00006" r="5" />
-                </svg>                  
+                <button class="presentation__selector-btn-middle">
+                  <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5.00006" r="5" />
+                  </svg>
+                </button>     
               </li>
               <li class="presentation__selector-item">
-                <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="5" cy="5.00006" r="5" />
-                </svg>
+                <button class="presentation__selector-btn-middle">
+                  <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5.00006" r="5" />
+                  </svg>
+                </button>
               </li>
               <li class="presentation__selector-item">
-                <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="5" cy="5.00006" r="5" />
-                </svg>
+                <button class="presentation__selector-btn-middle">
+                  <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5.00006" r="5" />
+                  </svg>
+                </button>
               </li>
               <li class="presentation__selector-item">
-                <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="5" cy="5.00006" r="5" />
-                </svg>
+                <button class="presentation__selector-btn-middle">
+                  <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5.00006" r="5" />
+                  </svg>
+                </button>
               </li>
             </ul>
             <button class="presentation__selector-btn presentation__selector-btn_forward">
@@ -68,14 +78,16 @@
       <section class="info">
         <div class="info__content container">
           <h2 class="info__title">About me</h2>
-          <div class="info__message info__message_right">
-            <p class="info__message-text">Aliquam tortor molestie turpis est tristique. Congue diam orci amet quis semper ut. Vitae aenean nibh facilisis urna, ultricies euismod nunc. Commodo fringilla sit hendrerit consequat. Vel ac elit vel sagittis.</p>
-          </div>
-          <div class="info__message info__message_left">
-            <p class="info__message-text">Tincidunt id quis pellentesque rutrum pretium. Egestas aliquam dictum ipsum nisl, sed pulvinar. Commodo elit sed a fermentum non justo. Etiam platea consectetur.</p>
-          </div>
-          <div class="info__message info__message_right">
-            <p class="info__message-text">Quam ipsum odio tellus etiam aliquam dolor ut hendrerit. Felis risus nec vitae nunc ultricies placerat. Nullam nec felis eu id dolor pellentesque tristique. </p>
+          <div class="info__message-box">
+            <div class="info__message">
+              <p class="info__message-text">Aliquam tortor molestie turpis est tristique. Congue diam orci amet quis semper ut. Vitae aenean nibh facilisis urna, ultricies euismod nunc. Commodo fringilla sit hendrerit consequat. Vel ac elit vel sagittis.</p>
+            </div>
+            <div class="info__message">
+              <p class="info__message-text">Tincidunt id quis pellentesque rutrum pretium. Egestas aliquam dictum ipsum nisl, sed pulvinar. Commodo elit sed a fermentum non justo. Etiam platea consectetur.</p>
+            </div>
+            <div class="info__message">
+              <p class="info__message-text">Quam ipsum odio tellus etiam aliquam dolor ut hendrerit. Felis risus nec vitae nunc ultricies placerat. Nullam nec felis eu id dolor pellentesque tristique. </p>
+            </div>
           </div>
         </div>
       </section>
@@ -163,7 +175,7 @@
               <source srcset="../../static/images/Portfolio-mobile.jpg, ../../static/images/Portfolio-mobile@2.jpg 2x" media="(max-width: 700px)">
               <source srcset="../../static/images/Portfolio-tablet.jpg, ../../static/images/Portfolio-tablet@2.jpg 2x" media="(max-width: 850px)">
               <source srcset="../../static/images/Portfolio.jpg, ../../static/images/Portfolio@2.jpg 2x">
-              <img class="portfolio__img" src="../../static/images/poster.png" width="1000" height="604" alt="Portfolio"/>
+              <img class="portfolio__img" src="../../static/images/Portfolio.jpg" width="1000" height="604" alt="Portfolio"/>
             </picture>
             <button class="portfolio__btn portfolio__btn_back">
               <svg width="43" height="61" viewBox="0 0 43 61" xmlns="http://www.w3.org/2000/svg">
@@ -178,98 +190,53 @@
               </svg>
             </button>
             <div class="portfolio__footer">
-              <a class="portfolio__footer-link" target="_blank" href="https://fedchenkovyacheslav.github.io">Learning site for DL Academy courses</a>
+              <a class="portfolio__footer-link" target="_blank" href="https://fedchenkovyacheslav.github.io/project">Learning site for DL Academy courses</a>
               <p class="portfolio__footer-text">A simple multi-page static site. The design layout was in Figma. HTML and CSS were used. The site is responsive and cross-browser, but without adding interactivity via JavaScript.</p>
             </div>
           </div>
         </div>
+        
       </section>
     </main>
-    <div class="modal modal_close modal_message-js">
-      <div class="modal__content">
-        <form class="form form_modal" action="https://form-data-dl.herokuapp.com/api/messages" method="POST">
-          <div class="form__row">
-            <div class="form__row-short form__row-short_2">
-              <label class="form__label form__label_2" for="form-name-send-message">What is your name? <span class="form__label-star">*</span></label>
-              <input class="form__input form__input_message-js" id="form-name-send-message" type="text" name="name">
-            </div>
-            <div class="form__row-short">
-              <label class="form__label form__label_2" for="form-message-send-message">Message subject <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-message-send-message" type="text" name="message">
-            </div>
-          </div>
-          <div class="form__row">
-            <div class="form__row-short form__row-short_2">
-              <label class="form__label form__label_2" for="form-email-send-message">Your Email <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-email-send-message" type="email" name="email">
-            </div>
-            <div class="form__row-short">
-              <label class="form__label form__label_2" for="form-phone-send-message">Your mobile phone <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-phone-send-message" type="text" name="phone">
-            </div>
-          </div>
-          <div class="form__row">
-            <label class="form__label" for="form-discuss-send-message">What do you want to discuss with me?</label>
-            <textarea class="form__input form__input-message" id="form-discuss-send-message" name="message"></textarea>
-          </div>
-          <label class="form__checkbox-label">
-            <input class="form__checkbox hidden" type="checkbox" value="accept" name="accept-button">
-            <span class="form__checkbox-indicator">Clicking on the button, you consent to the processing of your personal data.</span>
-          </label>
-          @@include('button/index.html', {
-            "type": "submit",
-            "class": "form__submit-button button_modal",
-            "text": "Send"
-            })
-        </form>
-        <button type="button" class="modal__close modal__close_message-js">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" fill="#828282"/>
-            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" fill="#828282"/>
-          </svg>
-          </svg>
-        </button>
-      </div>
-    </div>
     <div class="modal modal_close modal_register-js">
       <div class="modal__content">
-        <form class="form form_modal" action="https://form-data-dl.herokuapp.com/api/messages" method="POST">
+        <form name="form-register" class="form form_modal">
           <div class="form__row">
             <label class="form__label" for="form-email-register">Email <span class="form__label-star">*</span></label>
-            <input class="form__input form__input_register-js" id="form-email-register" type="email" name="email">
+            <input class="form__input form__input_register-js email_js" id="form-email-register" type="text" name="email">
           </div>
           <div class="form__row">
             <div class="form__row-short form__row-short_2">
               <label class="form__label form__label_2" for="form-name-register">Name <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-name-register" type="text" name="name">
+              <input class="form__input name_js" id="form-name-register" type="text" name="name">
             </div>
             <div class="form__row-short">
               <label class="form__label form__label_2" for="form-surname-register">Surname <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-surname-register" type="text" name="surname">
+              <input class="form__input surname_js" id="form-surname-register" type="text" name="surname">
             </div>
           </div>
           <div class="form__row">
             <div class="form__row-short form__row-short_2">
               <label class="form__label form__label_2" for="form-password-register">Password <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-password-register" type="password" name="password">
+              <input class="form__input password_js" id="form-password-register" type="password" name="password">
             </div>
             <div class="form__row-short">
               <label class="form__label form__label_2" for="form-password-repeat-register">Repeat password <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-password-repeat-register" type="password" name="password">
+              <input class="form__input password-repeat_js" id="form-password-repeat-register" type="password" name="passwordRep">
             </div>
           </div>
           <div class="form__row">
             <div class="form__row-short form__row-short_2">
               <label class="form__label form__label_2" for="form-location-register">Location <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-location-register" type="text" name="location">
+              <input class="form__input location_js" id="form-location-register" type="text" name="location">
             </div>
             <div class="form__row-short">
               <label class="form__label form__label_2" for="form-age-register">Age <span class="form__label-star">*</span></label>
-              <input class="form__input" id="form-age-register" type="text" name="age">
+              <input class="form__input age_js" id="form-age-register" type="number" name="age">
             </div>
           </div>
           <label class="form__checkbox-label">
-            <input class="form__checkbox hidden" type="checkbox" value="accept" name="accept-button">
+            <input class="form__checkbox hidden" type="checkbox" value="no" name="acceptbutton">
             <span class="form__checkbox-indicator">Clicking on the button, you consent to the processing of your personal data.</span>
           </label>
           @@include('button/index.html', {
@@ -279,9 +246,9 @@
             })
         </form>
         <button type="button" class="modal__close modal__close_register-js">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" fill="#828282"/>
-            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" fill="#828282"/>
+          <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
+            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
           </svg>
           </svg>
         </button>
@@ -305,14 +272,20 @@
             })
         </form>
         <button type="button" class="modal__close modal__close_sing-in-js">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" fill="#828282"/>
-            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" fill="#828282"/>
+          <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
+            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
           </svg>
           </svg>
         </button>
       </div>
     </div>
+    <button class="top-button">
+      <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.300781" y="12.5786" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300781 12.5786)" fill="#070707"/>
+        <rect x="21.5801" y="14.7" width="16.5512" height="3" rx="1.5" transform="rotate(-135 21.5801 14.7)" fill="#070707"/>
+      </svg>                      
+    </button>
     @@include('footer/index.html')
     <script src="./index.js"></script>
   </body>
