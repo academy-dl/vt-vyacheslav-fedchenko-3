@@ -1,7 +1,7 @@
 @import "../../components/var";
 
 .presentation {
-	margin-bottom: 56px;
+	margin-bottom: 60px;
 
 	@media (max-width: 661px) {
 		margin-bottom: 36px;
@@ -17,11 +17,6 @@
 			align-items: flex-start;
 			margin-bottom: 27px;
 		}
-	}
-
-	&__img {
-		width: 100%;
-    height: 100%;
 	}
 
 	&__title {
@@ -52,84 +47,112 @@
 			margin-top: 23px;
 		}
 	}
+}
 
-	&__selector {
-		display: flex;
+.slider {
+
+  &__wrapper {
+		height: auto;
+    overflow: hidden;
+  }
+  
+  &__inner-wrapper {
+    display: flex;
+    height: 100%;
+	}
+
+	&__img {
+    height: 100%;
+	}
+
+  &__slide {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+  }
+  
+  &__bottom-panel {
+    margin-top: 21px;
+    display: flex;
+    align-items: center;
 		justify-content: space-between;
-		margin-top: 22px;
-
-		@media (max-width: 768px) {
-      margin-top: 32px;
-		}
 		
+		@media (max-width: 768px) {
+			margin-top: 31px;
+		}
+
 		@media (max-width: 600px) {
-			margin-top: 22px;
+			margin-top: 21px;
     }
+	}
+	
+	&__pagination {
+		margin-top: 4px;
 
-		&-btn {
-			border: 2.5px solid $black;
-			border-radius: 50%;
-			background-color: transparent;
-			text-align: center;
-			width: 42px;
-			height: 42px;
-			fill: $black;
-			padding-top: 5px;
-			margin-top: 4px;
-			padding-left: 9px;
-			transition: border-color 0.4s, fill .4s;
+		@media (max-width: 600px) {
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+	}
+  
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border: none;
+    padding: 0;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    transition: background-color .4s;
+    
+    &:not(:last-child) {
+      margin-right: 7px;
+    }
+    
+    &_active {
+      background-color: #000;
+    }
+    
+    &:not(.slider__dot_active):hover, &:not(.slider__dot_active):focus {
+      background-color: gray;
+    }
+  }
+  
+  &__button {
+    border: 2.5px solid $black;
+		border-radius: 50%;
+		background-color: transparent;
+		text-align: center;
+		width: 42px;
+		height: 42px;
+		fill: $black;
+		padding-top: 5px;
+		margin-top: 4px;
+		padding-left: 9px;
+		transition: border-color 0.4s, fill .4s;
 
-			&_back {
-				padding-right: 10px;
-			}
-
-			&-middle {
-				background-color: transparent;
-				border: none;
-				padding: 0;
-				cursor: pointer;
-			}
-
-			&:hover {
+		&_back {
+			padding-right: 10px;
+		}
+  
+    &:not(:disabled) {
+        &:hover, &:focus {
 				fill: $gray;
 				border-color: $gray;
 				cursor: pointer;
-			}
-
-			&:disabled {
-				fill: $light-gray;
-				border-color: $light-gray;
-				cursor: not-allowed;
-			}
+      }
 		}
-
-		&-pages {
-			display: flex;
-			flex-wrap: wrap;
-			max-width: 100px;
-
-			@media (max-width: 600px) {
-				margin-top: 24px;
-				margin-bottom: 0;
-			}
-		}
-
-		&-item {
-			padding-left: 3.5px;
-			padding-right: 3.5px;
-			fill: $light-gray;
-			transition: fill 0.4s;
-
-			&_active {
-				fill: $black;
-			}
-
-			&:hover {
-				fill: $gray;
-				cursor: pointer;
-			}
-		}
-	}
+		
+    &:disabled {
+      fill: $light-gray;
+			border-color: $light-gray;
+			user-select: none;
+			cursor: not-allowed;
+    }
+  }
 }
 
 .info {
@@ -415,14 +438,86 @@
 	&__img {
 		width: 100%;
 		height: 100%;
-
-		&-box {
-			position: relative;
-		}
 	}
 
-	&__footer {
+	&__btn {
 		position: absolute;
+		top: 44.7%;
+		border: none;
+		background-color: transparent;
+		fill: $black;
+		transition: fill 0.4s;
+		cursor: pointer;
+
+		@media (max-width: 600px) {
+			top: 44.5%;
+		}
+
+		&_back {
+			left: 15px;
+
+			@media (max-width: 600px) {
+				left: 0;
+			}
+		}
+
+		&_forward {
+			right: 15px;
+
+			@media (max-width: 600px) {
+				right: 0;
+			}
+		}
+	}
+}
+
+.swiper {
+
+	&-container {
+		width: 100%;
+		height: auto;
+	}
+
+	&-wrapper {
+		position: relative;
+	}
+
+	&-button {
+
+		&-prev {
+			width: initial;
+			right: auto;
+			left: 21px;
+			
+			@media (max-width: 600px) {
+				left: 6px;
+				top: 49.5%;
+			}
+	
+			&:after {
+				content: '';
+			}
+		}
+
+		&-next {
+			width: initial;
+			right: 21px;
+			left: auto;
+		
+			@media (max-width: 600px) {
+				right: 6px;
+				top: 49.5%;
+			}
+	
+			&:after {
+				content: '';
+			}
+		}	
+	}
+
+	&-footer {
+		position: absolute;
+		z-index: 1;
 		bottom: 3px;
 		left: 0;
 		width: 100%;
@@ -501,45 +596,6 @@
 			@media (max-width: 600px) {
 				margin-bottom: 24px;
 			}
-		}
-	}
-
-	&__btn {
-		position: absolute;
-		top: 44.7%;
-		border: none;
-		background-color: transparent;
-		fill: $black;
-		transition: fill 0.4s;
-		cursor: pointer;
-
-		@media (max-width: 600px) {
-			top: 44.5%;
-		}
-
-		&_back {
-			left: 15px;
-
-			@media (max-width: 600px) {
-				left: 0;
-			}
-		}
-
-		&_forward {
-			right: 15px;
-
-			@media (max-width: 600px) {
-				right: 0;
-			}
-		}
-
-		&:hover {
-			fill: $gray;
-		}
-
-		&:disabled {
-			fill: $light-gray;
-			cursor: not-allowed;
 		}
 	}
 }

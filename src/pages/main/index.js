@@ -133,7 +133,7 @@ function getValuesForm(form) {
   let body = {};
   const inputs = form.querySelectorAll("input"); 
   const textareas = form.querySelectorAll("textarea");
-  const l = inputs.length;
+  let l = inputs.length;
   for (let i = 0; i < l; i++) {
     const input = inputs[i];
     switch (input.type) {
@@ -146,20 +146,17 @@ function getValuesForm(form) {
         }
         break;
         case "file":
-          if (input.checked) { 
-            body[input.name] = input.files; 
-          }
+          body[input.name] = input.files; 
           break; 
         default:
           body[input.name] = input.value; 
           break;
     }  
   }
-
-  const l2 = textareas.length;
-  for (let i = 0; i < l2; i++) {
-    const input = inputs[i];
-    body[input.name] = input.value; 
+  l = textareas.length;
+  for (let i = 0; i < l; i++) {       /////////////////////
+    const textarea = textareas[i];
+    body[textarea.name] = textarea.value; 
   }
   return body;
 }
@@ -180,21 +177,28 @@ function setValidInput(input) {
   })
 }
 
+function setInvalidCheck(span) {
+  span.classList.add("form__checkbox-indicator_bad");
+}
+
 function setFormErrors(form, errors, verified) {
   const inputs = form.querySelectorAll("input");
+  const textareas = form.querySelectorAll("textarea");
+  const span = form.querySelector(".form__checkbox-indicator");
   let l = inputs.length;
   for (let i = 0; i < l; i++) {
     const input = inputs[i];
     switch (input.type) {
       case "checkbox":
         if(errors[input.name]) {
-          setInvalidInput(input);
+          setInvalidCheck(span); 
         }
         break;
       case "file":
         if(errors[input.name]) {
           setInvalidInput(input);
         }
+        break;
       default:
         if(errors[input.name]) {
           setInvalidInput(input);
@@ -207,10 +211,26 @@ function setFormErrors(form, errors, verified) {
         break;
     }
   }
+  l = textareas.length;
+  for (let i = 0; i < l; i++) {       /////////////////////
+    const textarea = textareas[i];
+    if(errors[textarea.name]) {
+      setInvalidInput(textarea);
+      errorMessageInputCreate(textarea, errors[textarea.name]);
+    }
+    else {
+      setValidInput(textarea);
+      verifiedMessageInputCreate(textarea, verified[textarea.name]); ///
+    }
+  }
 }
 
 function mailCheck(email) {
   return email.match(/^[0-9a-z-\.]+\@[0-9a-z-]{2,}\.[a-z]{2,}$/i);
+}
+
+function phoneCheck(phone) {
+  return phone.match(/^(\s*)?(\+)?([-_():=+]?\d[- _():=+]?){10,14}(\s*)?$/);
 }
 
 function errorMessageInputCreate(input, text) {
@@ -218,9 +238,13 @@ function errorMessageInputCreate(input, text) {
   message.classList.add("invalid-feedback");
   message.innerText = text;
 
-  input.insertAdjacentElement("afterend", message);
-  let nextMessage = input.nextElementSibling.classList.contains('invalid-feedback');
+  let nextMessage = input.nextElementSibling;
   console.log(nextMessage);
+  if(nextMessage != null) {
+    return
+  }
+
+  input.insertAdjacentElement("afterend", message);
   input.addEventListener("input", function handlerInput(event){
     message.remove();
     input.removeEventListener("input", handlerInput);
@@ -232,12 +256,20 @@ function verifiedMessageInputCreate (input, text) {  //////
   message.classList.add("valid-feedback");
   message.innerText = text;
 
+  let nextMessage = input.nextElementSibling;
+  console.log(nextMessage);
+  if(nextMessage != null) {
+    return
+  }
+
   input.insertAdjacentElement("afterend", message);
   input.addEventListener("input", function handlerInput(event){
     message.remove();
     input.removeEventListener("input", handlerInput);
   })
 }
+
+/* Верификация формы form-register*/
 
 (function() {
   let formRegister = document.forms["form-register"];
@@ -246,13 +278,14 @@ function verifiedMessageInputCreate (input, text) {  //////
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const email = form.querySelector(".email_js");
-    const password = form.querySelector(".password_js");
-    const passwordRep = form.querySelector(".password-repeat_js");
-    const name = form.querySelector(".name_js");
-    const surname = form.querySelector(".surname_js");
-    const location = form.querySelector(".location_js");
-    const age = form.querySelector(".age_js");
+    const email = form.querySelector(".email-js");
+    const password = form.querySelector(".password-js");
+    const passwordRep = form.querySelector(".password-repeat-js");
+    const name = form.querySelector(".name-js");
+    const surname = form.querySelector(".surname-js");
+    const location = form.querySelector(".location-js");
+    const age = form.querySelector(".age-js");
+    const acceptbutton = form.querySelector(".acceptbutton-js"); ////////////////////////////////////
     let errors = {};
     let verified = {};  ////
     
@@ -289,11 +322,11 @@ function verifiedMessageInputCreate (input, text) {  //////
     if(values.name === null || values.name === "") {
       errors.name = 'This field is required';
     }
-    else if(values.name.length < 3 || values.name.length >= 20) {
-      errors.name = 'Your name is too short or too long';
-    }
     else if(parseInt(name.value)) {
       errors.name = 'This name is not valid';
+    }
+    else if(values.name.length < 3 || values.name.length >= 20) {
+      errors.name = 'Your name is too short or too long';
     }
     else {
       verified.name = 'All right';
@@ -302,11 +335,11 @@ function verifiedMessageInputCreate (input, text) {  //////
     if(values.surname === null || values.surname === "") {
       errors.surname = 'This field is required';
     }
-    else if(values.surname.length < 3 || values.surname.length >= 20) {
-      errors.surname = 'Your surname is too short or too long';
-    }
     else if(parseInt(surname.value)) {
       errors.surname = 'This surname is not valid';
+    }
+    else if(values.surname.length < 3 || values.surname.length >= 20) {
+      errors.surname = 'Your surname is too short or too long';
     }
     else {
       verified.surname = 'All right';
@@ -315,11 +348,11 @@ function verifiedMessageInputCreate (input, text) {  //////
     if(values.location === null || values.location === "") {
       errors.location = 'This field is required';
     }
-    else if(values.location.length < 3 || values.location.length >= 20) {
-      errors.location = 'This field is required';
-    }
     else if(parseInt(location.value)) {
       errors.location = 'This location is not valid';
+    }
+    else if(values.location.length < 3 || values.location.length >= 20) {
+      errors.location = 'Location name is too short or too long';
     }
     else {
       verified.location = 'All right';
@@ -335,6 +368,224 @@ function verifiedMessageInputCreate (input, text) {  //////
       verified.age = 'All right';
     }
 
+    if(values.acceptbutton === "no") {
+      errors.acceptbutton = "You didn't agree to processing of your personal data";
+    }
+
     setFormErrors(form, errors, verified);
   });
 })();
+
+/* Верификация формы sing-in*/
+
+(function() {
+  let formRegister = document.forms["form-sing-in"];
+  formRegister.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const values = getValuesForm(form);
+    console.log(values);
+    const email = form.querySelector(".email-js");
+    const password = form.querySelector(".password-js");
+    let errors = {};
+    let verified = {};  
+    
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+    }
+    else {
+      verified.email = 'All right';
+    }
+
+    if(values.password === null || values.password === "") {
+      errors.password = 'This field is required';
+    }
+    else if(values.password.length < 3 || values.password.length >= 20) {
+      errors.password = 'Password must be between 3 and 20 characters';
+    }
+    else {
+      verified.password = 'All right';
+    }
+
+    setFormErrors(form, errors, verified);
+  });
+})();
+
+/* Верификация формы message*/
+
+(function() {
+  let formRegister = document.forms["form-message"];
+  formRegister.addEventListener("submit", function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const values = getValuesForm(form);
+    console.log(values);
+    const email = form.querySelector(".email-js");
+    const name = form.querySelector(".name-js");
+    const message = form.querySelector(".message-js");
+    const phone = form.querySelector(".phone-js");
+    const messagetext = form.querySelector(".messagetext-js");  ////////////
+    let errors = {};
+    let verified = {};  
+    
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+    }
+    else {
+      verified.email = 'All right';
+    }
+
+    if(values.name === null || values.name === "") {
+      errors.name = 'This field is required';
+    }
+    else if(parseInt(name.value)) {
+      errors.name = 'This name is not valid';
+    }
+    else if(values.name.length < 3 || values.name.length >= 20) {
+      errors.name = 'Your name is too short or too long';
+    }
+    else {
+      verified.name = 'All right';
+    }
+
+    if(values.message === null || values.message === "") {
+      errors.message = 'This field is required';
+    }
+    else if(parseInt(message.value)) {
+      errors.message = 'This message is not valid';
+    }
+    else if(values.message.length < 3 || values.message.length >= 20) {
+      errors.message = 'Your message is too short or too long';
+    }
+    else {
+      verified.message = 'All right';
+    }
+
+    if(values.phone === null || values.phone === "") {
+      errors.phone = 'This field is required';
+    }
+    else if(!phoneCheck(values.phone)) {
+      errors.phone = 'Please enter a valid phone number';
+    }
+    else {
+      verified.phone = 'All right';
+    }
+
+    if(values.messagetext === null || values.messagetext === "") { /////////////////////
+      errors.messagetext = 'This field is required';
+    }
+    else if(values.messagetext.length < 3) {
+      errors.messagetext = 'Your message is too short';
+    }
+    else {
+      verified.messagetext = 'All right';
+    }
+
+    if(values.acceptbutton === "no") {
+      errors.acceptbutton = "You didn't agree to processing of your personal data";
+    }
+    
+    setFormErrors(form, errors, verified);
+  });
+})();
+
+/* Slider 1 */
+
+const wrapper = document.querySelector(".slider__wrapper");
+const innerWrapper = document.querySelector(".slider__inner-wrapper");
+const pagination = document.querySelector(".slider__pagination");
+const buttonBack = document.querySelector(".slider__button_back");
+const buttonNext = document.querySelector(".slider__button_next");
+const slides = document.querySelectorAll(".slider__slide");
+
+let shearWidth = +getComputedStyle(wrapper).width.split("px")[0];
+let numberSlides = innerWrapper.childElementCount - 1;
+let activeSlide = 0;
+let dots = [];
+
+function initWidthSlides() {
+  shearWidth = +getComputedStyle(wrapper).width.split("px")[0];
+  for(let i = 0; i < slides.length; i++) {
+    slides[i].style.width = shearWidth + "px";
+  }
+}
+
+initWidthSlides();
+
+function init() {
+  for(let i = 0; i < slides.length; i++) {
+    let dot = document.createElement("button");
+    dot.classList.add("slider__dot");
+    if(i === activeSlide) {
+      dot.classList.add("slider__dot_active");
+    }
+    dot.addEventListener("click", function () {
+      setActiveSlide(i);
+    })
+    dots[dots.length] = dot;
+    pagination.insertAdjacentElement("beforeend", dot);
+  }
+}
+
+init();
+
+function setActiveSlide(index) {
+  if(index < 0 || index > numberSlides) {
+    return;
+  }
+  innerWrapper.style.transition = "margin-left .5s";
+  dots[activeSlide].classList.remove("slider__dot_active");
+  dots[index].classList.add("slider__dot_active");
+  if(activeSlide - index > 0) {
+    buttonNext.removeAttribute("disabled");
+  }
+  if(activeSlide - index < 0) {
+    buttonBack.removeAttribute("disabled");
+  }
+  if(index === 0) {
+    buttonBack.setAttribute("disabled", "disabled");
+  }
+  if(index === numberSlides) {
+    buttonNext.setAttribute("disabled", "disabled");
+  }
+  innerWrapper.style.marginLeft = "-" + shearWidth*index + "px";
+  activeSlide = index;
+}
+
+buttonNext.addEventListener("click", function () {
+  const index = activeSlide + 1;
+  setActiveSlide(index);
+})
+
+buttonBack.addEventListener("click", function () {
+  const index = activeSlide - 1;
+  setActiveSlide(index);
+})
+
+window.addEventListener("resize", function () {
+  innerWrapper.style.transition = "";
+  initWidthSlides();
+  setActiveSlide(activeSlide);
+  innerWrapper.style.transition = "margin-left .5s";
+})
+
+/* Slider 2 */
+
+var mySwiper = new Swiper ('.swiper-container', {
+  // Optional parameters
+  autoHeight: true, //enable auto height
+  spaceBetween: 20,
+  loop: true,
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+})

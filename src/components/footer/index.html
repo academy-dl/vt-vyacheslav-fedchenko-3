@@ -1,4 +1,4 @@
-<footer class="footer footer_2">
+<footer class="@@class">
 	<div class="footer__content container">
 		<div class="footer__content">
 			<h2 class="footer__title">Contacts</h2>
@@ -58,33 +58,33 @@
 </footer>
 <div class="modal modal_close modal_message-js">
 	<div class="modal__content">
-		<form class="form form_modal" action="https://form-data-dl.herokuapp.com/api/messages" method="POST">
+		<form name="form-message" class="form form_modal" >
 			<div class="form__row">
 				<div class="form__row-short form__row-short_2">
 					<label class="form__label form__label_2" for="form-name-send-message">What is your name? <span class="form__label-star">*</span></label>
-					<input class="form__input form__input_message-js" id="form-name-send-message" type="text" name="name">
+					<input class="form__input form__input_message-js name-js" id="form-name-send-message" type="text" name="name">
 				</div>
 				<div class="form__row-short">
 					<label class="form__label form__label_2" for="form-message-send-message">Message subject <span class="form__label-star">*</span></label>
-					<input class="form__input" id="form-message-send-message" type="text" name="message">
+					<input class="form__input message-js" id="form-message-send-message" type="text" name="message">
 				</div>
 			</div>
 			<div class="form__row">
 				<div class="form__row-short form__row-short_2">
 					<label class="form__label form__label_2" for="form-email-send-message">Your Email <span class="form__label-star">*</span></label>
-					<input class="form__input" id="form-email-send-message" type="email" name="email">
+					<input class="form__input email-js" id="form-email-send-message" type="text" name="email">
 				</div>
 				<div class="form__row-short">
 					<label class="form__label form__label_2" for="form-phone-send-message">Your mobile phone <span class="form__label-star">*</span></label>
-					<input class="form__input" id="form-phone-send-message" type="text" name="phone">
+					<input class="form__input phone-js" id="form-phone-send-message" type="tel" name="phone">
 				</div>
 			</div>
-			<div class="form__row">
+			<div class="form__row form__row_column">
 				<label class="form__label" for="form-discuss-send-message">What do you want to discuss with me?</label>
-				<textarea class="form__input form__input-message" id="form-discuss-send-message" name="message"></textarea>
+				<textarea class="form__input form__input-message messagetext-js" id="form-discuss-send-message" name="messagetext"></textarea>
 			</div>
 			<label class="form__checkbox-label">
-				<input class="form__checkbox hidden" type="checkbox" value="accept" name="accept-button">
+				<input class="form__checkbox hidden" type="checkbox" value="no" name="acceptbutton">
 				<span class="form__checkbox-indicator">Clicking on the button, you consent to the processing of your personal data.</span>
 			</label>
 			@@include('button/index.html', {
