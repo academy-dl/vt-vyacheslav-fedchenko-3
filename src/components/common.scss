@@ -525,7 +525,11 @@ input:focus + .form__checkbox-indicator {
 
 	&_show {
 		display: block;
-	}
+  }
+  
+  @media (max-width: 768px) {
+    right: 10px;
+  }
 }
 
 // Подключение компонентов
