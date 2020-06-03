@@ -96,7 +96,7 @@ input {
   background-color: $white;
   border: 2.5px solid $black;
 
-  @media (max-width: 600px) {  /////
+  @media (max-width: 600px) { 
     border: none;
   }
   
@@ -109,7 +109,7 @@ input {
       min-width: 100%;
     }
 
-    @media (max-width: 600px) {   ///////
+    @media (max-width: 600px) { 
       padding: 10px 16px 16px;
     }
 
@@ -137,7 +137,7 @@ input {
     }
 
     &_column {
-      flex-direction: column;  /////!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      flex-direction: column;  
     }
 
     &-short {
@@ -172,6 +172,73 @@ input {
 
     &-star {
       color: $red;
+    }
+
+    &-picture { ///// форма загрузки изображений
+      margin-top: 22px;
+      font-weight: normal;
+      font-size: $normal;
+      line-height: 21px;
+      padding: 13px 11px 13px 40px;
+      width: 48.5%;
+      height: 51px;
+      overflow: hidden;
+      white-space: nowrap;
+      word-wrap: normal;
+      text-overflow: ellipsis;
+      background-color: $white;
+      border: 2px solid $light-gray;
+      transition: border-color .4s;
+      z-index: 2;
+    
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+    
+      &:hover {
+        border-color: $gray;
+      }
+    
+      &:focus {
+        border-color: $black;
+        outline-style: none;
+      }
+    
+      &:focus:hover {
+        border-color: $black;
+        outline-style: none;
+      }
+    
+      &_bad {
+        border-color: $red;
+      }
+    
+      &_good {
+        border-color: $green-2;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        background: url(../static/images/file-upload.svg) no-repeat; 
+        background-position: 12px;
+        left: 0;
+        top: 15px;
+        height: 18px;
+        width: 31px;
+      }
+    }
+
+    &-text {
+      position: absolute;
+      font-size: 14px;
+      line-height: 16px;
+      top: 20px;
+      left: 0;
+    
+      @media (max-width: 600px) {
+        top: -20px;
+      }
     }
   }
 
@@ -278,7 +345,6 @@ input {
         padding-top: 0;
       }
 
-      
       &::after {
         content: "";
         position: absolute;
@@ -303,7 +369,7 @@ input {
       }
 
       &_bad {
-        color: $red; ///////////////////
+        color: $red; 
 
         &::after {
           border-color: $red;
@@ -311,10 +377,6 @@ input {
       }
     }
   }
-}
-
-input.button[type='file'] {
-  opacity:0    
 }
 
 input {
@@ -327,70 +389,11 @@ input {
   }
 }
 
-/* input file */
-
-.form__label-picture { ////////////////////////////////!!!!!!!!!!!!навести порядок
-  margin-top: 22px;
-  font-weight: normal;
-  font-size: $normal;
-  line-height: 21px;
-  padding: 13px 11px 13px 40px;
-  width: 48.5%;
-  height: 51px;
-  overflow: hidden;
-  white-space: nowrap;
-  word-wrap: normal;
-  text-overflow: ellipsis;
-  background-color: $white;
-  border: 2px solid $light-gray;
-  transition: border-color .4s;
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-
-  &:hover {
-    border-color: $gray;
-  }
-
-  &_bad {
-    border-color: $red;
-  }
-
-  &_good {
-    border-color: $green-2;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    background: url(../static/images/file-upload.svg) no-repeat; 
-    background-position: 12px;
-    left: 0;
-    top: 15px;
-    height: 18px;
-    width: 31px;
-  }
-}
-
 .avatar-js {
   height: 51px;
   padding: 13px 11px 13px 40px;
   opacity: 0;
 }
-
-.form__label-text {
-  position: absolute;
-  font-size: 14px;
-  line-height: 16px;
-  top: 20px;
-  left: 0;
-
-  @media (max-width: 600px) {
-    top: -20px;
-  }
-}
-/////////////////////////////////////////
 
 .invalid-feedback {
   margin-top: 10px;
@@ -447,7 +450,7 @@ input:focus + .form__checkbox-indicator {
     }
   }
   
-  @media (max-width: 600px) {   ////
+  @media (max-width: 600px) { 
     background-color: $white;
   }
 	
@@ -469,7 +472,7 @@ input:focus + .form__checkbox-indicator {
       width: 89%; 
     }  
     
-    @media (max-width: 600px) {  /////
+    @media (max-width: 600px) {
       width: 98%;
     }
   }
@@ -493,7 +496,7 @@ input:focus + .form__checkbox-indicator {
       right: 0;
     }
 
-    @media (max-width: 600px) {   ////
+    @media (max-width: 600px) { 
       top: -20px;
       right: initial;
       left: 20px;
