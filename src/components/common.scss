@@ -288,13 +288,13 @@ input {
         width: 20px;
         border: 2px solid $light-gray;
         border-radius: 3px;
-        margin-top: 19px;
+        margin-top: 20px;
         transition: border-color 0.4s;
 
         @media (max-width: 600px) {
           height: 17px;
           width: 17px;
-          margin-top: 14px;
+          margin-top: 18px;
         }
       }
       
@@ -347,6 +347,10 @@ input {
 
   @media (max-width: 600px) {
     width: 100%;
+  }
+
+  &:hover {
+    border-color: $gray;
   }
 
   &_bad {
@@ -410,13 +414,11 @@ input {
 }
 
 input:focus + .form__checkbox-indicator {
-  outline-color: $blue;
+  outline-color: $orange;
   outline-offset: -2px;
   outline-style: auto;
   outline-width: 5px;
 }
-
-
 
 /*modal window*/
 

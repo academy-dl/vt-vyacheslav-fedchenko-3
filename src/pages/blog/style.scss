@@ -447,14 +447,14 @@
 /*focus on elements*/
 
 input:focus + .filter__form-checkbox-indicator {
-  outline-color: $blue;
+  outline-color: $orange;
   outline-offset: -2px;
   outline-style: auto;
   outline-width: 5px;
 }
 
 input:focus + .filter__form-radio-indicator {
-  outline-color: $blue;
+  outline-color: $orange;
   outline-offset: -2px;
   outline-style: auto;
   outline-width: 5px;

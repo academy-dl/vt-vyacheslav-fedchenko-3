@@ -145,9 +145,6 @@ function getValuesForm(form) {
           body[input.name] = 'yes';
         }
         break;
-        case "file":
-          body[input.name] = input.files; 
-          break; 
         default:
           body[input.name] = input.value; 
           break;
@@ -192,11 +189,6 @@ function setFormErrors(form, errors, verified) {
       case "checkbox":
         if(errors[input.name]) {
           setInvalidCheck(span); 
-        }
-        break;
-      case "file":
-        if(errors[input.name]) {
-          setInvalidInput(input);
         }
         break;
       default:

@@ -94,20 +94,11 @@ window.addEventListener("keydown", function(event){
 
 function getValuesForm(form) {
   let body = {};
-  const inputs = form.querySelectorAll("input"); 
-  const textareas = form.querySelectorAll("textarea");
+  const inputs = form.querySelectorAll("input");
   let l = inputs.length;
   for (let i = 0; i < l; i++) {
     const input = inputs[i];
     switch (input.type) {
-      case "checkbox":
-        if (!(input.checked)) {
-          body[input.name] = input.value; 
-        }
-        else {
-          body[input.name] = 'yes';
-        }
-        break;
         case "file":
           body[input.name] = input.files; 
           break; 
@@ -115,11 +106,6 @@ function getValuesForm(form) {
           body[input.name] = input.value; 
           break;
     }  
-  }
-  l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
-    const textarea = textareas[i];
-    body[textarea.name] = textarea.value; 
   }
   return body;
 }
@@ -140,10 +126,6 @@ function setValidInput(input) {
   })
 }
 
-function setInvalidCheck(span) {
-  span.classList.add("form__checkbox-indicator_bad");
-}
-
 function setInvalidLabel(label) {
   label.classList.add("form__label-picture_bad");
 }
@@ -154,18 +136,11 @@ function setValidLabel(label) {
 
 function setFormErrors(form, errors, verified) {
   const inputs = form.querySelectorAll("input");
-  const textareas = form.querySelectorAll("textarea");
-  const span = form.querySelector(".form__checkbox-indicator");
   const label = form.querySelector(".form__label-picture"); //////////////////!!!!!!!!!!!!!!
   let l = inputs.length;
   for (let i = 0; i < l; i++) {
     const input = inputs[i];
     switch (input.type) {
-      case "checkbox":
-        if(errors[input.name]) {
-          setInvalidCheck(span); 
-        }
-        break;
       case "file":
         if(errors[input.name]) {
           setInvalidLabel(label); //////////////////////////!!!!!!!!!!!!
@@ -186,18 +161,6 @@ function setFormErrors(form, errors, verified) {
           verifiedMessageInputCreate(input, verified[input.name]); ///
         }
         break;
-    }
-  }
-  l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
-    const textarea = textareas[i];
-    if(errors[textarea.name]) {
-      setInvalidInput(textarea);
-      errorMessageInputCreate(textarea, errors[textarea.name]);
-    }
-    else {
-      setValidInput(textarea);
-      verifiedMessageInputCreate(textarea, verified[textarea.name]); ///
     }
   }
 }
