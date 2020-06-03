@@ -126,29 +126,37 @@ function setValidInput(input) {
   })
 }
 
+var inputFile = document.getElementById("form-profile-picture-editing-data"); 
+
 function setInvalidLabel(label) {
   label.classList.add("form__label-picture_bad");
+  inputFile.oninput = function () { 
+    label.classList.remove("form__label-picture_bad"); 
+  }
 }
 
 function setValidLabel(label) {
   label.classList.add("form__label-picture_good");
+  inputFile.oninput = function() { 
+    label.classList.remove("form__label-picture_good"); 
+  }
 }
 
 function setFormErrors(form, errors, verified) {
   const inputs = form.querySelectorAll("input");
-  const label = form.querySelector(".form__label-picture"); //////////////////!!!!!!!!!!!!!!
+  const label = form.querySelector(".form__label-picture"); 
   let l = inputs.length;
   for (let i = 0; i < l; i++) {
     const input = inputs[i];
     switch (input.type) {
       case "file":
         if(errors[input.name]) {
-          setInvalidLabel(label); //////////////////////////!!!!!!!!!!!!
-          errorMessageInputCreate(input, errors[input.name]);
+          setInvalidLabel(label); 
+          errorMessageInputCreate(label, errors[input.name]);
         }
         else {
-          setValidLabel(label); ////////////////////////////!!!!!!!!!!!!
-          verifiedMessageInputCreate(input, verified[input.name]);
+          setValidLabel(label); 
+          verifiedMessageInputCreate(label, verified[input.name]);
         }
         break;
       default:
@@ -189,9 +197,13 @@ function errorMessageInputCreate(input, text) {
     message.remove();
     input.removeEventListener("input", handlerInput);
   })
+
+  inputFile.onclick = function() { 
+    message.remove(); 
+  }
 }
 
-function verifiedMessageInputCreate (input, text) {  //////
+function verifiedMessageInputCreate (input, text) { 
   let message = document.createElement("div");
   message.classList.add("valid-feedback");
   message.innerText = text;
@@ -207,6 +219,10 @@ function verifiedMessageInputCreate (input, text) {  //////
     message.remove();
     input.removeEventListener("input", handlerInput);
   })
+  
+  inputFile.onchange = function() { 
+    message.remove(); 
+  }
 }
 
 /* Верификация формы sing-in*/
