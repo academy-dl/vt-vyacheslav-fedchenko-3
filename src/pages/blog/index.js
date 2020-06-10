@@ -1,9 +1,9 @@
 /* форма Message */
 
-var modalMessage = document.querySelector(".modal_message-js");
-var buttonMessageOpen = document.querySelector(".footer__button_message-js");
-var buttonMessageClose = document.querySelector(".modal__close_message-js");
-var inputMessage = document.querySelector(".form__input_message-js");
+let modalMessage = document.querySelector(".modal_message-js");
+let buttonMessageOpen = document.querySelector(".footer__button_message-js");
+let buttonMessageClose = document.querySelector(".modal__close_message-js");
+let inputMessage = document.querySelector(".form__input_message-js");
 
 buttonMessageOpen.addEventListener("click", function(){
   modalMessage.classList.remove("modal_close");
@@ -24,11 +24,11 @@ window.addEventListener("keydown", function(event){
 
 /* форма Register */
 
-var modalRegister = document.querySelector(".modal_register-js");
-var buttonRegisterOpen = document.querySelector(".header__register-button_js");
-var buttonRegisterOpenMobile = document.querySelector(".mobile-header__register-button_js");
-var buttonRegisterClose = document.querySelector(".modal__close_register-js");
-var inputRegister = document.querySelector(".form__input_register-js");
+let modalRegister = document.querySelector(".modal_register-js");
+let buttonRegisterOpen = document.querySelector(".header__register-button_js");
+let buttonRegisterOpenMobile = document.querySelector(".mobile-header__register-button_js");
+let buttonRegisterClose = document.querySelector(".modal__close_register-js");
+let inputRegister = document.querySelector(".form__input_register-js");
 
 buttonRegisterOpenMobile.addEventListener("click", function(){
   modalRegister.classList.remove("modal_close");
@@ -54,11 +54,11 @@ window.addEventListener("keydown", function(event){
 
 /* форма Sing in */
 
-var modalSingIn = document.querySelector(".modal_sing-in-js");
-var buttonSingInOpen = document.querySelector(".header__sing-in-button_js");
-var buttonSingInOpenMobile = document.querySelector(".mobile-header__sing-in-button_js");
-var buttonSingInClose = document.querySelector(".modal__close_sing-in-js");
-var inputSingIn = document.querySelector(".form__input_sing-in-js");
+let modalSingIn = document.querySelector(".modal_sing-in-js");
+let buttonSingInOpen = document.querySelector(".header__sing-in-button_js");
+let buttonSingInOpenMobile = document.querySelector(".mobile-header__sing-in-button_js");
+let buttonSingInClose = document.querySelector(".modal__close_sing-in-js");
+let inputSingIn = document.querySelector(".form__input_sing-in-js");
 
 buttonSingInOpenMobile.addEventListener("click", function(){
   modalSingIn.classList.remove("modal_close");
@@ -84,9 +84,9 @@ window.addEventListener("keydown", function(event){
 
 /* мобильное меню */
 
-var buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
-var buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
-var mobileHeader = document.querySelector(".mobile-header");
+let buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
+let buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
+let mobileHeader = document.querySelector(".mobile-header");
 
 buttonMobileHeader.addEventListener("click", function(){
   mobileHeader.classList.add("mobile-header_open");
@@ -102,7 +102,7 @@ buttonCloseMobileHeader.addEventListener("click", function(){
   'use strict';
 
   function trackScroll() {
-    var scrolled = window.pageYOffset;
+    let scrolled = window.pageYOffset;
 
     if (scrolled > 1500) {
       goTopBtn.classList.add('top-button_show');
@@ -113,14 +113,14 @@ buttonCloseMobileHeader.addEventListener("click", function(){
   }
 
   function backToTop() {
-    var scrollStep = window.pageYOffset / 50;
+    let scrollStep = window.pageYOffset / 50;
     if (window.pageYOffset > 0) {
       window.scrollBy(0, -(scrollStep));
       setTimeout(backToTop, 0);
     }
   }
 
-  var goTopBtn = document.querySelector('.top-button');
+  let goTopBtn = document.querySelector('.top-button');
 
   window.addEventListener('scroll', trackScroll);
   goTopBtn.addEventListener('click', backToTop);
@@ -151,7 +151,7 @@ function getValuesForm(form) {
     }  
   }
   l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
+  for (let i = 0; i < l; i++) { 
     const textarea = textareas[i];
     body[textarea.name] = textarea.value; 
   }
@@ -198,13 +198,13 @@ function setFormErrors(form, errors, verified) {
         }
         else {
           setValidInput(input);
-          verifiedMessageInputCreate(input, verified[input.name]); ///
+          verifiedMessageInputCreate(input, verified[input.name]);
         }
         break;
     }
   }
   l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
+  for (let i = 0; i < l; i++) {
     const textarea = textareas[i];
     if(errors[textarea.name]) {
       setInvalidInput(textarea);
@@ -212,7 +212,7 @@ function setFormErrors(form, errors, verified) {
     }
     else {
       setValidInput(textarea);
-      verifiedMessageInputCreate(textarea, verified[textarea.name]); ///
+      verifiedMessageInputCreate(textarea, verified[textarea.name]);
     }
   }
 }
@@ -243,7 +243,7 @@ function errorMessageInputCreate(input, text) {
   })
 }
 
-function verifiedMessageInputCreate (input, text) {  //////
+function verifiedMessageInputCreate (input, text) {
   let message = document.createElement("div");
   message.classList.add("valid-feedback");
   message.innerText = text;
@@ -277,9 +277,9 @@ function verifiedMessageInputCreate (input, text) {  //////
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
-    const acceptbutton = form.querySelector(".acceptbutton-js"); ////////////////////////////////////
+    const acceptbutton = form.querySelector(".acceptbutton-js");
     let errors = {};
-    let verified = {};  ////
+    let verified = {};
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -419,7 +419,7 @@ function verifiedMessageInputCreate (input, text) {  //////
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
     const phone = form.querySelector(".phone-js");
-    const messagetext = form.querySelector(".messagetext-js");  ////////////
+    const messagetext = form.querySelector(".messagetext-js");
     let errors = {};
     let verified = {};  
     
@@ -469,7 +469,7 @@ function verifiedMessageInputCreate (input, text) {  //////
       verified.phone = 'All right';
     }
 
-    if(values.messagetext === null || values.messagetext === "") { /////////////////////
+    if(values.messagetext === null || values.messagetext === "") { 
       errors.messagetext = 'This field is required';
     }
     else if(values.messagetext.length < 3) {
@@ -485,4 +485,306 @@ function verifiedMessageInputCreate (input, text) {  //////
     
     setFormErrors(form, errors, verified);
   });
+})();
+
+/* фильтр */
+
+const SERVER_URL = "https://academy.directlinedev.com";
+
+(function () {
+  let tagsBox = document.querySelector(".filter__tag");
+  let cardsBox = document.querySelector(".blog");
+  let allValuesPage = getValuesFromUrl();
+
+  function createLoader () {
+    return `
+    <div class="load-3">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+    `
+  }
+
+  function createCard(card) {
+    return `
+    <li class="blog__item">
+            <picture class="blog__img-box">
+              <source srcset="${SERVER_URL}${card.mobilePhotoUrl}, ${SERVER_URL}${card.mobile2xPhotoUrl}" media="(max-width: 700px)">
+              <source srcset="${SERVER_URL}${card.tabletPhotoUrl}, ${SERVER_URL}${card.tablet2xPhotoUrl}" media="(max-width: 850px)">
+              <source srcset="${SERVER_URL}${card.desktopPhotoUrl}, ${SERVER_URL}${card.desktop2xPhotoUrl}">
+              <img class="blog__img" src="${SERVER_URL}${card.desktopPhotoUrl}" width="320" height="236" alt="Blog photo"/>
+            </picture>
+            <div class="blog__content">
+              <ul class="blog__tag-list list-point-none">
+                <li class="blog__tag blog__tag_1"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_2"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_3"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_4"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_5"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_6"></li>
+                <li class="blog__tag blog__tag_hidden blog__tag_7"></li>
+                <li class="blog__tag blog__tag_8"></li>
+              </ul>
+              <span class="blog__date blog__info">${parseDate(card.date)}</span>
+              <span class="blog__views blog__info">${card.views} views</span>
+              <span class="blog__comments blog__info">${card.commentsCount} comments</span>
+              <h2 class="blog__title">${card.title}</h2>
+              <p class="blog__text">${card.text}</p>
+              <a class="blog__link" href="#">Go to this post</a>
+            </div>
+          </li>
+    `
+  }
+
+  function parseDate (cardDate) {
+    let date = new Date(cardDate);
+    let year = date.getFullYear();
+    let month = 1 + date.getMonth();
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let day = date.getDate();
+    if (day < 10) {
+      day = "0" + day;
+    }
+    return (day + "." + month + "." + year);
+  }
+
+  call("GET", "/api/tags", function (res) {
+    let response = JSON.parse(res.response);
+    if(response.success) {
+      const tags = response.data;
+      let tagsHTML = "";
+      for(let i=0; i < tags.length; i++) {
+        tagsHTML += createTag(tags[i]);
+      }
+      tagsBox.innerHTML = tagsHTML;
+      setAllValuesForForm(filterForm, getValuesFromUrl());
+    } else {
+      alert("ERROR!");
+    }
+  }, function () {
+    tagsBox.innerHTML = createLoader();
+  });
+
+  getCards(allValuesPage);
+
+  function getCards(allValuesPage) {
+    const page = allValuesPage.page ? +allValuesPage.page : 1;
+    const howShow = allValuesPage.howShow ? +allValuesPage.howShow : 5;
+    const offset = (page-1)*howShow;
+    let tags = JSON.stringify(allValuesPage.tags || []);
+
+    let commentsArr = allValuesPage.commentsCount || []; /// Нерабочий диапазон по комментам
+    let min = 10000;
+    let max = -1;
+    for(let i=0; i < commentsArr.lenght; i++) {
+      let a = commentsArr[i].split("-")[0];
+      let b = commentsArr[i].split("-")[1];
+      console.log(a, b);
+      min = +getMin(+min, getMin(+a, +b));
+      max = +getMax(+max, getMax(+a, +b));
+    }
+
+    let filter = {};
+    let str = "";
+    if(min !== 10000 && max !== -1) {
+      filter.commentsCount = {"$between": [min, max]}
+    }
+    if(Object.keys(filter)) {
+      str += "&filter="+JSON.stringify(filter);   ////// Нерабочий диапазон по комментам
+    }
+    
+    call("GET", `/api/posts?limit=${howShow}&offset=${offset}&tags=${tags}${str}`, function (res) {
+      let response = JSON.parse(res.response);
+      if(response.success) {
+        const cards = response.data;
+        let cardHtml = "";
+        for(let i=0; i < cards.length; i++) {
+          for(let j=0; cards[i].tags.lenght; j++) {  ///????
+            const tag = cards[i].tags[j].tag;
+          }
+          cardHtml += createCard(cards[i]);
+        }
+        cardsBox.innerHTML = cardHtml;
+        createPagination(response.count/howShow, page);
+      } else {
+        alert("ERROR!");
+      }
+    }, function () {
+      cardsBox.innerHTML = createLoader();
+    });
+  }
+
+  function createTag(tag) {
+    return `
+    <label class="filter__checkbox-label">
+      <input class="filter__form-checkbox hidden" type="checkbox" value="${tag.id}" name="tags">
+      <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_2 filter__form-checkbox-indicator_tag-${tag.id}"></span>
+    </label>
+    `
+  }
+
+  function getMax(a, b) {
+    if(a > b) {
+      return a;
+    } else {
+      return b;
+    }
+  }
+  
+  function getMin(a, b) {
+    if(a > b) {
+      return b;
+    } else {
+      return a;
+    }
+  }
+
+  function call(method, path, fn, onstart, onerror) {
+    if(onstart)
+      onstart();
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, SERVER_URL + path);
+    xhr.send();
+    xhr.onload = function () {
+      fn(xhr)
+    }
+    xhr.onerror = function () {
+      if(onerror)
+      onerror(xhr)
+    }
+  }
+
+  function getAllValuesFromForm(form) {
+    let body = {};
+    const inputs = form.querySelectorAll("input"); 
+    let l = inputs.length;
+    for (let input of inputs) {
+      switch (input.type) {
+        case "radio":
+          if (input.checked)
+            body[input.name] = input.value; 
+          break;
+        case "checkbox":
+          if (!body[input.name]) 
+            body[input.name] = [];
+          if (input.checked)
+            body[input.name].push(input.value);
+          break;
+          default:
+          body[input.name] = input.value; 
+      }  
+    }
+    return body;
+  }
+
+  function setAllValuesForForm(form, values) {
+    const inputs = form.querySelectorAll("input"); 
+    let l = inputs.length;
+    for (let input of inputs) {
+      switch (input.type) {
+        case "radio":
+          if(values[input.name] && values[input.name] === input.value) {
+            input.checked = true;
+          } 
+          break;
+        case "checkbox":
+          if(values[input.name]){
+            if(typeof values[input.name] === "object") {
+              for(let i=0; i < values[input.name].length; i++) {
+                if(values[input.name][i] === input.value) {
+                  input.checked = true;
+                }
+              }
+            } else {
+              if(values[input.name] === input.value) {
+                input.checked = true;
+              } 
+            }
+          }
+          break;
+        default:
+          if(values[input.name]) {
+            input.value = values[input.name]; 
+          }
+          break;
+      }  
+    }
+  }
+
+  function getValuesFromUrl() {
+    let params = {};
+    if(location.search) {
+      let paramsArray = location.search.substring(1).split("&");
+      for(let i=0; i < paramsArray.length; i++) {
+        let split = paramsArray[i].split("=");
+        let name = split[0];
+        let value = split[1].replace(/%20/g, " ");
+        if(params[name]) {
+          if(typeof params[name] === "string") {
+            params[name] = [params[name], value];
+          } else {
+            params[name].push(value);
+          }
+        } else {
+          params[name] = value;
+        }
+      }
+    }
+    return params;
+  }
+
+  function setValuesToUrl(values) {
+    let params = [];
+    let names = Object.keys(values);
+    for(let i = 0; i < names.length; i++) {
+      if((typeof values[names[i]]) === "string") {
+        params.push(names[i] + "=" + values[names[i]]);
+      } else {
+        for(let j = 0; j < values[names[i]].length; j++) {
+          params.push(names[i] + "=" + values[names[i]][j]);
+        }
+      }
+    }
+    window.history.replaceState({}, document.title, "?" + params.join("&"));
+  }
+
+  console.log();
+  const filterForm = document.forms.filterForm;
+
+  setAllValuesForForm(filterForm, getValuesFromUrl());
+
+  filterForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    let value = getAllValuesFromForm(event.target);
+    setValuesToUrl(value);
+    allValuesPage.page = "1";
+    allValuesPage = value;
+    getCards(allValuesPage);
+  });
+
+  function createPagination (countPage, activePage) {
+    let links = document.querySelector(".selector-pages");
+    links.innerHTML = "";
+    for(let i = 0; i < countPage; i++) {
+      let link = document.createElement("a");
+      link.classList.add("selector-link");
+      link.setAttribute("href", "?page="+(i+1));
+      if(activePage === i+1){
+        link.classList.add("selector-link_active");
+      }
+      link.innerHTML = i+1; 
+      link.addEventListener("click", function(event){
+        event.preventDefault();
+        let value = getAllValuesFromForm(filterForm);
+        value.page = i + 1 + "";
+        setValuesToUrl(value);
+        allValuesPage = value;
+        getCards(allValuesPage);
+      })
+      links.insertAdjacentElement("beforeend", link);
+    }
+  }
 })();

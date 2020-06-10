@@ -1,8 +1,8 @@
 /* мобильное меню */
 
-var buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
-var buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
-var mobileHeader = document.querySelector(".mobile-header");
+let buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
+let buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
+let mobileHeader = document.querySelector(".mobile-header");
 
 buttonMobileHeader.addEventListener("click", function(){
   mobileHeader.classList.add("mobile-header_open");
@@ -14,10 +14,10 @@ buttonCloseMobileHeader.addEventListener("click", function(){
 
 /* форма Password edit */
 
-var modalPasswordEdit = document.querySelector(".modal_password-edit-js");
-var buttonPasswordEditOpen = document.querySelector(".profile__button-password-js");
-var buttonPasswordEditClose = document.querySelector(".modal__close_password-edit-js");
-var inputPasswordEdit = document.querySelector(".form__input_sing-in-js");
+let modalPasswordEdit = document.querySelector(".modal_password-edit-js");
+let buttonPasswordEditOpen = document.querySelector(".profile__button-password-js");
+let buttonPasswordEditClose = document.querySelector(".modal__close_password-edit-js");
+let inputPasswordEdit = document.querySelector(".form__input_sing-in-js");
 
 buttonPasswordEditOpen.addEventListener("click", function(){
   modalPasswordEdit.classList.remove("modal_close");
@@ -38,10 +38,10 @@ window.addEventListener("keydown", function(event){
 
 /* форма Editing data */
 
-var modalEditingData = document.querySelector(".modal_editing-data-js");
-var buttonEditingDataOpen = document.querySelector(".profile__button-data-js");
-var buttonEditingDataClose = document.querySelector(".modal__close-editing-data-js");
-var inputEditingData = document.querySelector(".form__input_editing-data-js");
+let modalEditingData = document.querySelector(".modal_editing-data-js");
+let buttonEditingDataOpen = document.querySelector(".profile__button-data-js");
+let buttonEditingDataClose = document.querySelector(".modal__close-editing-data-js");
+let inputEditingData = document.querySelector(".form__input_editing-data-js");
 
 buttonEditingDataOpen.addEventListener("click", function(){
   modalEditingData.classList.remove("modal_close");
@@ -66,7 +66,7 @@ window.addEventListener("keydown", function(event){
   'use strict';
 
   function trackScroll() {
-    var scrolled = window.pageYOffset;
+    let scrolled = window.pageYOffset;
 
     if (scrolled > 1500) {
       goTopBtn.classList.add('top-button_show');
@@ -77,14 +77,14 @@ window.addEventListener("keydown", function(event){
   }
 
   function backToTop() {
-    var scrollStep = window.pageYOffset / 50;
+    let scrollStep = window.pageYOffset / 50;
     if (window.pageYOffset > 0) {
       window.scrollBy(0, -(scrollStep));
       setTimeout(backToTop, 0);
     }
   }
 
-  var goTopBtn = document.querySelector('.top-button');
+  let goTopBtn = document.querySelector('.top-button');
 
   window.addEventListener('scroll', trackScroll);
   goTopBtn.addEventListener('click', backToTop);
@@ -126,19 +126,19 @@ function setValidInput(input) {
   })
 }
 
-var inputFile = document.getElementById("form-profile-picture-editing-data"); 
+let inputFile = document.getElementById("form-profile-picture-editing-data"); 
 
 function setInvalidLabel(label) {
   label.classList.add("form__label-picture_bad");
   inputFile.oninput = function () { 
-    label.classList.remove("form__label-picture_bad"); 
+    label.classList.remove("form__label-picture_bad"); //// ?
   }
 }
 
 function setValidLabel(label) {
   label.classList.add("form__label-picture_good");
   inputFile.oninput = function() { 
-    label.classList.remove("form__label-picture_good"); 
+    label.classList.remove("form__label-picture_good"); //// ?
   }
 }
 
@@ -198,7 +198,7 @@ function errorMessageInputCreate(input, text) {
     input.removeEventListener("input", handlerInput);
   })
 
-  inputFile.onclick = function() { 
+  inputFile.onclick = function() {    //// ?
     message.remove(); 
   }
 }
@@ -220,7 +220,7 @@ function verifiedMessageInputCreate (input, text) {
     input.removeEventListener("input", handlerInput);
   })
   
-  inputFile.onchange = function() { 
+  inputFile.onchange = function() {    //// ?
     message.remove(); 
   }
 }

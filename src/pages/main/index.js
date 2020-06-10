@@ -1,9 +1,9 @@
 /* форма Message */
 
-var modalMessage = document.querySelector(".modal_message-js");
-var buttonMessageOpen = document.querySelector(".footer__button_message-js");
-var buttonMessageClose = document.querySelector(".modal__close_message-js");
-var inputMessage = document.querySelector(".form__input_message-js");
+let modalMessage = document.querySelector(".modal_message-js");
+let buttonMessageOpen = document.querySelector(".footer__button_message-js");
+let buttonMessageClose = document.querySelector(".modal__close_message-js");
+let inputMessage = document.querySelector(".form__input_message-js");
 
 buttonMessageOpen.addEventListener("click", function(){
   modalMessage.classList.remove("modal_close");
@@ -24,11 +24,11 @@ window.addEventListener("keydown", function(event){
 
 /* форма Register */
 
-var modalRegister = document.querySelector(".modal_register-js");
-var buttonRegisterOpen = document.querySelector(".header__register-button_js");
-var buttonRegisterOpenMobile = document.querySelector(".mobile-header__register-button_js");
-var buttonRegisterClose = document.querySelector(".modal__close_register-js");
-var inputRegister = document.querySelector(".form__input_register-js");
+let modalRegister = document.querySelector(".modal_register-js");
+let buttonRegisterOpen = document.querySelector(".header__register-button_js");
+let buttonRegisterOpenMobile = document.querySelector(".mobile-header__register-button_js");
+let buttonRegisterClose = document.querySelector(".modal__close_register-js");
+let inputRegister = document.querySelector(".form__input_register-js");
 
 buttonRegisterOpenMobile.addEventListener("click", function(){
   modalRegister.classList.remove("modal_close");
@@ -54,11 +54,11 @@ window.addEventListener("keydown", function(event){
 
 /* форма Sing in */
 
-var modalSingIn = document.querySelector(".modal_sing-in-js");
-var buttonSingInOpen = document.querySelector(".header__sing-in-button_js");
-var buttonSingInOpenMobile = document.querySelector(".mobile-header__sing-in-button_js");
-var buttonSingInClose = document.querySelector(".modal__close_sing-in-js");
-var inputSingIn = document.querySelector(".form__input_sing-in-js");
+let modalSingIn = document.querySelector(".modal_sing-in-js");
+let buttonSingInOpen = document.querySelector(".header__sing-in-button_js");
+let buttonSingInOpenMobile = document.querySelector(".mobile-header__sing-in-button_js");
+let buttonSingInClose = document.querySelector(".modal__close_sing-in-js");
+let inputSingIn = document.querySelector(".form__input_sing-in-js");
 
 buttonSingInOpenMobile.addEventListener("click", function(){
   modalSingIn.classList.remove("modal_close");
@@ -84,9 +84,9 @@ window.addEventListener("keydown", function(event){
 
 /* мобильное меню */
 
-var buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
-var buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
-var mobileHeader = document.querySelector(".mobile-header");
+let buttonMobileHeader = document.querySelector(".header__mobile-menu_js");
+let buttonCloseMobileHeader = document.querySelector(".mobile-header__button-close_js");
+let mobileHeader = document.querySelector(".mobile-header");
 
 buttonMobileHeader.addEventListener("click", function(){
   mobileHeader.classList.add("mobile-header_open");
@@ -102,7 +102,7 @@ buttonCloseMobileHeader.addEventListener("click", function(){
   'use strict';
 
   function trackScroll() {
-    var scrolled = window.pageYOffset;
+    let scrolled = window.pageYOffset;
 
     if (scrolled > 1500) {
       goTopBtn.classList.add('top-button_show');
@@ -113,14 +113,14 @@ buttonCloseMobileHeader.addEventListener("click", function(){
   }
 
   function backToTop() {
-    var scrollStep = window.pageYOffset / 50;
+    let scrollStep = window.pageYOffset / 50;
     if (window.pageYOffset > 0) {
       window.scrollBy(0, -(scrollStep));
       setTimeout(backToTop, 0);
     }
   }
 
-  var goTopBtn = document.querySelector('.top-button');
+  let goTopBtn = document.querySelector('.top-button');
 
   window.addEventListener('scroll', trackScroll);
   goTopBtn.addEventListener('click', backToTop);
@@ -151,7 +151,7 @@ function getValuesForm(form) {
     }  
   }
   l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
+  for (let i = 0; i < l; i++) {  
     const textarea = textareas[i];
     body[textarea.name] = textarea.value; 
   }
@@ -198,13 +198,13 @@ function setFormErrors(form, errors, verified) {
         }
         else {
           setValidInput(input);
-          verifiedMessageInputCreate(input, verified[input.name]); ///
+          verifiedMessageInputCreate(input, verified[input.name]); 
         }
         break;
     }
   }
   l = textareas.length;
-  for (let i = 0; i < l; i++) {       /////////////////////
+  for (let i = 0; i < l; i++) {  
     const textarea = textareas[i];
     if(errors[textarea.name]) {
       setInvalidInput(textarea);
@@ -212,7 +212,7 @@ function setFormErrors(form, errors, verified) {
     }
     else {
       setValidInput(textarea);
-      verifiedMessageInputCreate(textarea, verified[textarea.name]); ///
+      verifiedMessageInputCreate(textarea, verified[textarea.name]);
     }
   }
 }
@@ -243,7 +243,7 @@ function errorMessageInputCreate(input, text) {
   })
 }
 
-function verifiedMessageInputCreate (input, text) {  //////
+function verifiedMessageInputCreate (input, text) { 
   let message = document.createElement("div");
   message.classList.add("valid-feedback");
   message.innerText = text;
@@ -277,9 +277,9 @@ function verifiedMessageInputCreate (input, text) {  //////
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
-    const acceptbutton = form.querySelector(".acceptbutton-js"); ////////////////////////////////////
+    const acceptbutton = form.querySelector(".acceptbutton-js"); 
     let errors = {};
-    let verified = {};  ////
+    let verified = {}; 
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -419,7 +419,7 @@ function verifiedMessageInputCreate (input, text) {  //////
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
     const phone = form.querySelector(".phone-js");
-    const messagetext = form.querySelector(".messagetext-js");  ////////////
+    const messagetext = form.querySelector(".messagetext-js"); 
     let errors = {};
     let verified = {};  
     
@@ -469,7 +469,7 @@ function verifiedMessageInputCreate (input, text) {  //////
       verified.phone = 'All right';
     }
 
-    if(values.messagetext === null || values.messagetext === "") { /////////////////////
+    if(values.messagetext === null || values.messagetext === "") { 
       errors.messagetext = 'This field is required';
     }
     else if(values.messagetext.length < 3) {
@@ -548,6 +548,7 @@ function setActiveSlide(index) {
   }
   innerWrapper.style.marginLeft = "-" + shearWidth*index + "px";
   activeSlide = index;
+  localStorage.setItem("activeSlide", activeSlide);   /* Несброс слайдера */ 
 }
 
 buttonNext.addEventListener("click", function () {
@@ -567,15 +568,19 @@ window.addEventListener("resize", function () {
   innerWrapper.style.transition = "margin-left .5s";
 })
 
+if(localStorage.getItem("activeSlide")){
+  setActiveSlide(+localStorage.getItem("activeSlide"));  /* Несброс слайдера */ 
+}
+
 /* Slider 2 */
 
-var mySwiper = new Swiper ('.swiper-container', {
-  // Optional parameters
+let mySwiper = new Swiper ('.swiper-container', {
+
   autoHeight: true, //enable auto height
   spaceBetween: 20,
   loop: true,
 
-  // Navigation arrows
+
   navigation: {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',

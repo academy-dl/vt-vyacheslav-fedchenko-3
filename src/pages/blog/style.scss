@@ -677,26 +677,6 @@ input:focus + .filter__form-radio-indicator {
 			border-color: $light-gray;
 			cursor: not-allowed;
 		}
-
-		&-middle {
-			background-color: transparent;
-			border: none;
-			padding: 0;
-			font-weight: bold;
-			font-size: $normal;
-			line-height: 22px;
-			color: $gray;
-			cursor: pointer;
-			transition: color 0.4s;
-
-			&_active {
-				color: $black;
-			}
-
-			&:hover {
-				color: $black;
-			}
-		}
 	}
 
 	&-pages {
@@ -714,8 +694,56 @@ input:focus + .filter__form-radio-indicator {
 		}
 	}
 
-	&-item {
+	&-link {
 		padding-left: 5px;
 		padding-right: 5px;
+		font-weight: bold;
+		font-size: $normal;
+		line-height: 22px;
+		color: $gray;
+		cursor: pointer;
+		transition: color 0.4s;
+
+		&_active {
+			color: $black;
+		}
+
+		&:hover {
+			color: $black;
+		}
 	}
+}
+
+.line {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: $gray;
+}
+
+.load-3 {
+	& .line:nth-last-child(1) {
+		animation: loadingC 0.6s 0.1s linear infinite;
+	}
+
+  & .line:nth-last-child(2) {
+		animation: loadingC 0.6s 0.2s linear infinite;
+	}
+
+	& .line:nth-last-child(3) {
+		animation: loadingC 0.6s 0.3s linear infinite;
+	}
+}
+
+@keyframes loadingC {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
