@@ -270,14 +270,10 @@ function verifiedMessageInputCreate (input, text) {
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const email = form.querySelector(".email-js");
-    const password = form.querySelector(".password-js");
-    const passwordRep = form.querySelector(".password-repeat-js");
     const name = form.querySelector(".name-js");
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
-    const acceptbutton = form.querySelector(".acceptbutton-js");
     let errors = {};
     let verified = {};
     
@@ -377,8 +373,6 @@ function verifiedMessageInputCreate (input, text) {
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const email = form.querySelector(".email-js");
-    const password = form.querySelector(".password-js");
     let errors = {};
     let verified = {};  
     
@@ -415,11 +409,9 @@ function verifiedMessageInputCreate (input, text) {
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const email = form.querySelector(".email-js");
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
-    const phone = form.querySelector(".phone-js");
-    const messagetext = form.querySelector(".messagetext-js");
+
     let errors = {};
     let verified = {};  
     
@@ -513,7 +505,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
               <source srcset="${SERVER_URL}${card.mobilePhotoUrl}, ${SERVER_URL}${card.mobile2xPhotoUrl}" media="(max-width: 700px)">
               <source srcset="${SERVER_URL}${card.tabletPhotoUrl}, ${SERVER_URL}${card.tablet2xPhotoUrl}" media="(max-width: 850px)">
               <source srcset="${SERVER_URL}${card.desktopPhotoUrl}, ${SERVER_URL}${card.desktop2xPhotoUrl}">
-              <img class="blog__img" src="${SERVER_URL}${card.desktopPhotoUrl}" width="320" height="236" alt="Blog photo"/>
+              <img class="blog__img" src="${SERVER_URL}${card.desktopPhotoUrl}" width="320" height="236" alt="${card.title}"/>
             </picture>
             <div class="blog__content">
               <ul class="blog__tag-list list-point-none">
@@ -576,27 +568,45 @@ const SERVER_URL = "https://academy.directlinedev.com";
     const offset = (page-1)*howShow;
     let tags = JSON.stringify(allValuesPage.tags || []);
 
-    let commentsArr = allValuesPage.commentsCount || []; /// Нерабочий диапазон по комментам
-    let min = 10000;
-    let max = -1;
-    for(let i=0; i < commentsArr.lenght; i++) {
+    let commentsArr = allValuesPage.commentsCount || []; 
+    let minComm = 1000000;
+    let maxComm = -1;
+    for(let i=0; i < commentsArr.length; i++) {
       let a = commentsArr[i].split("-")[0];
       let b = commentsArr[i].split("-")[1];
       console.log(a, b);
-      min = +getMin(+min, getMin(+a, +b));
-      max = +getMax(+max, getMax(+a, +b));
+      minComm = +getMin(+minComm, getMin(+a, +b));
+      maxComm = +getMax(+maxComm, getMax(+a, +b));
     }
 
-    let filter = {};
-    let str = "";
-    if(min !== 10000 && max !== -1) {
-      filter.commentsCount = {"$between": [min, max]}
+    let filterComm = {};
+    let commentStr = "";
+    if(minComm !== 1000000 && maxComm !== -1) {
+      filterComm.commentsCount = {"$between": [minComm, maxComm]}
     }
-    if(Object.keys(filter)) {
-      str += "&filter="+JSON.stringify(filter);   ////// Нерабочий диапазон по комментам
+    if(Object.keys(filterComm)) {
+      commentStr += "&filter="+JSON.stringify(filterComm);   
     }
+
+
+
+    let allViews = +allValuesPage.views; //// ????
+    let maxViews = 1000000;
+
+    console.log(allViews);
+    maxViews = +getMax(+maxViews, +allViews);
+
+    let filterViews = {};
+    let viewsStr = "";
+    filterViews.views = {"$between": [allViews, maxViews]} ;  //// ????
     
-    call("GET", `/api/posts?limit=${howShow}&offset=${offset}&tags=${tags}${str}`, function (res) {
+    if(Object.keys(filterViews)) {
+      viewsStr += "&filter="+JSON.stringify(filterViews);   
+    }
+
+    
+
+    call("GET", `/api/posts?limit=${howShow}&offset=${offset}&tags=${tags}${commentStr}${viewsStr}`, function (res) {
       let response = JSON.parse(res.response);
       if(response.success) {
         const cards = response.data;

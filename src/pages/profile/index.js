@@ -234,9 +234,6 @@ function verifiedMessageInputCreate (input, text) {
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const password = form.querySelector(".password-js");
-    const newPassword = form.querySelector(".new-password-js");
-    const newPasswordRep = form.querySelector(".new-password-repeat-js");
     let errors = {};
     let verified = {};  
 
@@ -280,12 +277,10 @@ function verifiedMessageInputCreate (input, text) {
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
-    const email = form.querySelector(".email-js");
     const name = form.querySelector(".name-js");
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
-    const avatar = form.querySelector(".avatar-js");
     let errors = {};
     let verified = {};  
 

@@ -534,35 +534,35 @@ input:focus + .filter__form-radio-indicator {
 		margin-right: 5px;
 
 		&_1 {
-			background-color: $orange;
-		}
-
-		&_2 {
-			background-color: $green;
-		}
-
-		&_3 {
-			background-color: $light-blue;
-		}
-
-		&_4 {
-			background-color: $pink;
-		}
-
-		&_5 {
-			background-color: $turquoise;
-		}
-
-		&_6 {
 			background-color: $dark-blue;
 		}
 
-		&_7 {
+		&_2 {
+			background-color: $light-blue;
+		}
+
+		&_3 {
 			background-color: $yellow;
 		}
 
+		&_4 {
+			background-color: $turquoise;
+		}
+
+		&_5 {
+			background-color: $orange;
+		}
+
+		&_6 {
+			background-color: $pink;
+		}
+
+		&_7 {
+			background-color:  $violet;
+		}
+
 		&_8 {
-			background-color: $violet;
+			background-color: $green;
 		}
 
 		&_hidden {
