@@ -261,7 +261,21 @@ function verifiedMessageInputCreate (input, text) {
   })
 }
 
-/* Верификация формы form-register*/
+/* fetch */
+
+const SERVER_URL = "https://academy.directlinedev.com";
+
+function sendReq({url, method="GET", body={}, headers={}}) {
+  const settings = {
+    method,
+    body,
+    headers,
+  };
+
+  return fetch(SERVER_URL + url, settings);
+}
+
+/* form-register*/
 
 (function() {
   let formRegister = document.forms["form-register"];
@@ -276,6 +290,33 @@ function verifiedMessageInputCreate (input, text) {
     const age = form.querySelector(".age-js");
     let errors = {};
     let verified = {}; 
+
+    sendReq({
+      url: "/api/users", 
+      method: "POST", 
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        let user = json.data;
+        alert(`пользователь ${user.name} ${user.surname}`);
+      } else {
+        throw json.errors
+      }
+    })
+
+    .catch(function(errors) {                                       
+      setFormErrors(form, errors, verified);               //////// !!!
+      alert(`${JSON.stringify(errors, null, 2)}`)
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -346,7 +387,7 @@ function verifiedMessageInputCreate (input, text) {
       verified.location = 'All right';
     }
 
-    if(age.value < 0 || age.value >= 100) {
+    if(age.value < 18 || age.value >= 100) {
       errors.age = 'This age is not valid';
     }
     else if(values.age === null || values.age === "") {
@@ -477,6 +518,7 @@ function verifiedMessageInputCreate (input, text) {
     setFormErrors(form, errors, verified);
   });
 })();
+
 
 /* Slider 1 */
 

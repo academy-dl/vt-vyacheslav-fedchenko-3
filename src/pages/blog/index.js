@@ -346,7 +346,7 @@ function verifiedMessageInputCreate (input, text) {
       verified.location = 'All right';
     }
 
-    if(age.value < 0 || age.value >= 100) {
+    if(age.value < 18 || age.value >= 100) {
       errors.age = 'This age is not valid';
     }
     else if(values.age === null || values.age === "") {
@@ -488,6 +488,9 @@ const SERVER_URL = "https://academy.directlinedev.com";
   let cardsBox = document.querySelector(".blog");
   let allValuesPage = getValuesFromUrl();
 
+  const buttonBack = document.querySelector(".selector-btn_back");
+  const buttonNext = document.querySelector(".selector-btn_forward");
+
   function createLoader () {
     return `
     <div class="load-3">
@@ -509,14 +512,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
             </picture>
             <div class="blog__content">
               <ul class="blog__tag-list list-point-none">
-                <li class="blog__tag blog__tag_1"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_2"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_3"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_4"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_5"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_6"></li>
-                <li class="blog__tag blog__tag_hidden blog__tag_7"></li>
-                <li class="blog__tag blog__tag_8"></li>
+                ${parseTags(card.tags)}
               </ul>
               <span class="blog__date blog__info">${parseDate(card.date)}</span>
               <span class="blog__views blog__info">${card.views} views</span>
@@ -526,6 +522,12 @@ const SERVER_URL = "https://academy.directlinedev.com";
               <a class="blog__link" href="#">Go to this post</a>
             </div>
           </li>
+    `
+  }
+
+  function searchMessage () {
+    return `
+    <p class="blog__message">Nothing found</p>
     `
   }
 
@@ -552,7 +554,8 @@ const SERVER_URL = "https://academy.directlinedev.com";
         tagsHTML += createTag(tags[i]);
       }
       tagsBox.innerHTML = tagsHTML;
-      setAllValuesForForm(filterForm, getValuesFromUrl());
+      setAllValuesForForm(filterForm, getValuesFromUrl());  ////// ?????
+      startParam ();
     } else {
       alert("ERROR!");
     }
@@ -574,47 +577,54 @@ const SERVER_URL = "https://academy.directlinedev.com";
     for(let i=0; i < commentsArr.length; i++) {
       let a = commentsArr[i].split("-")[0];
       let b = commentsArr[i].split("-")[1];
-      console.log(a, b);
       minComm = +getMin(+minComm, getMin(+a, +b));
       maxComm = +getMax(+maxComm, getMax(+a, +b));
     }
 
-    let filterComm = {};
-    let commentStr = "";
+    let filter = {};
+    let str = "";
     if(minComm !== 1000000 && maxComm !== -1) {
-      filterComm.commentsCount = {"$between": [minComm, maxComm]}
+      filter.commentsCount = {"$between": [minComm, maxComm]}
     }
-    if(Object.keys(filterComm)) {
-      commentStr += "&filter="+JSON.stringify(filterComm);   
+    if(Object.keys(filter)) {
+      str = "&filter="+JSON.stringify(filter);   
     }
 
-
-
-    let allViews = +allValuesPage.views; //// ????
+    let allViews = +allValuesPage.views;
     let maxViews = 1000000;
-
-    console.log(allViews);
     maxViews = +getMax(+maxViews, +allViews);
 
-    let filterViews = {};
-    let viewsStr = "";
-    filterViews.views = {"$between": [allViews, maxViews]} ;  //// ????
+    filter.views = {"$between": [allViews, maxViews]} ;
     
-    if(Object.keys(filterViews)) {
-      viewsStr += "&filter="+JSON.stringify(filterViews);   
+    if(Object.keys(filter)) {
+      str = "&filter="+JSON.stringify(filter);   
     }
 
+    let methodSort = allValuesPage.sortBy;
+    let sortStr = "";
+    let sort = [];
     
+    sort = [methodSort, "ASC"];
 
-    call("GET", `/api/posts?limit=${howShow}&offset=${offset}&tags=${tags}${commentStr}${viewsStr}`, function (res) {
+    if(Object.keys(sort)) {
+      sortStr = "&sort="+JSON.stringify(sort);   
+    }
+
+    let resultSearch = allValuesPage.search;
+    if(resultSearch !== "") {
+      filter.title = resultSearch;
+    } 
+    
+    if(Object.keys(filter)) {
+      str = "&filter="+JSON.stringify(filter);   
+    }
+
+    call("GET", `/api/posts?limit=${howShow}&offset=${offset}&tags=${tags}${str}${sortStr}`, function (res) {
       let response = JSON.parse(res.response);
       if(response.success) {
         const cards = response.data;
         let cardHtml = "";
         for(let i=0; i < cards.length; i++) {
-          for(let j=0; cards[i].tags.lenght; j++) {  ///????
-            const tag = cards[i].tags[j].tag;
-          }
           cardHtml += createCard(cards[i]);
         }
         cardsBox.innerHTML = cardHtml;
@@ -622,9 +632,27 @@ const SERVER_URL = "https://academy.directlinedev.com";
       } else {
         alert("ERROR!");
       }
+      if (cardsBox.innerHTML === "") {
+        cardsBox.innerHTML = searchMessage();
+      }
     }, function () {
       cardsBox.innerHTML = createLoader();
     });
+  }
+
+  function parseTags (tags) {
+    let result = "";
+    for(let i=0; i < tags.length; i++) {
+      let tag = tags[i];
+      result += createTagBlock(tag);
+    }
+    return result;
+  }
+
+  function createTagBlock(tags) {
+    return `
+      <li class="blog__tag blog__tag_${tags.tagId}"></li>
+    `
   }
 
   function createTag(tag) {
@@ -746,7 +774,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     return params;
   }
 
-  function setValuesToUrl(values) {
+  function setValuesToUrl(values) {   ///// ошибка с записью тегов в массив
     let params = [];
     let names = Object.keys(values);
     for(let i = 0; i < names.length; i++) {
@@ -773,6 +801,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     allValuesPage.page = "1";
     allValuesPage = value;
     getCards(allValuesPage);
+    getAllValuesFromForm(allValuesPage);  /////???? 
   });
 
   function createPagination (countPage, activePage) {
@@ -781,7 +810,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     for(let i = 0; i < countPage; i++) {
       let link = document.createElement("a");
       link.classList.add("selector-link");
-      link.setAttribute("href", "?page="+(i+1));
+      
       if(activePage === i+1){
         link.classList.add("selector-link_active");
       }
@@ -796,5 +825,37 @@ const SERVER_URL = "https://academy.directlinedev.com";
       })
       links.insertAdjacentElement("beforeend", link);
     }
+    
+    buttonNext.addEventListener("click", function () {    ////// настроить работу стрелок пагинации 
+      if(activePage < countPage) {
+        activePage += 1;
+        let value = getAllValuesFromForm(filterForm);
+        value.page = activePage + "";
+        setValuesToUrl(value);
+        allValuesPage = value;
+        getCards(allValuesPage);
+      }
+    })
+
+    buttonBack.addEventListener("click", function () {
+      if(activePage > 1) {
+        activePage -= 1;
+        let value = getAllValuesFromForm(filterForm);
+        value.page = activePage + "";
+        setValuesToUrl(value);
+        allValuesPage = value;
+        getCards(allValuesPage);
+      }
+    })
+  }
+
+  function startParam() {
+    let value = getAllValuesFromForm(filterForm);
+    value.tags = [1, 6];
+    setValuesToUrl(value);
+    allValuesPage = value;
+    getCards(allValuesPage);
+    setAllValuesForForm(filterForm, getValuesFromUrl());
+    setValuesToUrl(allValuesPage);
   }
 })();

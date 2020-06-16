@@ -565,10 +565,6 @@ input:focus + .filter__form-radio-indicator {
 			background-color: $green;
 		}
 
-		&_hidden {
-			display: none;
-		}
-
 		&-list {
 			display: flex;
 			margin-bottom: 10px;
@@ -630,6 +626,13 @@ input:focus + .filter__form-radio-indicator {
 		&:hover::after {
 			border-bottom: 1px solid $black;
 		}
+	}
+
+	&__message {
+		text-align: center;
+		font-weight: bold;
+		font-size: $big;
+		color: $red;
 	}
 }
 
