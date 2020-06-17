@@ -464,6 +464,7 @@ function createLoader () {
   let formRegister = document.forms["form-message"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
@@ -471,6 +472,35 @@ function createLoader () {
     const message = form.querySelector(".message-js");
     let errors = {};
     let verified = {};  
+
+    sendReq({
+      url: "/api/emails", 
+      method: "POST", 
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        let user = json.data;
+        loaderBox.innerHTML = "";
+        alert(`пользователь ${user.name} ${user.surname}`);
+      } else {
+        throw json.errors
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";                               
+      setFormErrors(form, errors, verified);               //////// !!!
+      alert(`${JSON.stringify(errors, null, 2)}`)
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
