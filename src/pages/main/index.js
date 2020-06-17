@@ -277,10 +277,25 @@ function sendReq({url, method="GET", body={}, headers={}}) {
 
 /* form-register*/
 
+const loaderBox = document.querySelector(".loader-container_js");
+
+function createLoader () {
+  return `
+  <div class="container-loader">
+    <div class="load-3">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </div>
+  `
+}
+
 (function() {
   let formRegister = document.forms["form-register"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
@@ -307,13 +322,15 @@ function sendReq({url, method="GET", body={}, headers={}}) {
     .then(function (json) {
       if(json.success) {
         let user = json.data;
+        loaderBox.innerHTML = "";
         alert(`пользователь ${user.name} ${user.surname}`);
       } else {
         throw json.errors
       }
     })
 
-    .catch(function(errors) {                                       
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";                               
       setFormErrors(form, errors, verified);               //////// !!!
       alert(`${JSON.stringify(errors, null, 2)}`)
     });

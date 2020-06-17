@@ -801,7 +801,6 @@ const SERVER_URL = "https://academy.directlinedev.com";
     allValuesPage.page = "1";
     allValuesPage = value;
     getCards(allValuesPage);
-    getAllValuesFromForm(allValuesPage);  /////???? 
   });
 
   function createPagination (countPage, activePage) {
@@ -849,7 +848,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     })
   }
 
-  function startParam() {
+  function startParam() {  ////// настроить фунцию стартовых параметров 
     let value = getAllValuesFromForm(filterForm);
     value.tags = [1, 6];
     setValuesToUrl(value);
