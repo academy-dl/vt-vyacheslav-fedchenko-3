@@ -241,7 +241,6 @@ function errorMessageInputCreate(input, text) {
   message.innerText = text;
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -387,16 +386,113 @@ function createLoader () {
   let formRegister = document.forms["form-register"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
-    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
-    console.log(values);
     const name = form.querySelector(".name-js");
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
     let errors = {};
-    let verified = {}; 
+
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.name === null || values.name === "") {
+      errors.name = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(name.value)) {
+      errors.name = 'This name is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.name.length < 3 || values.name.length >= 20) {
+      errors.name = 'Your name is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.surname === null || values.surname === "") {
+      errors.surname = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(surname.value)) {
+      errors.surname = 'This surname is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.surname.length < 3 || values.surname.length >= 20) {
+      errors.surname = 'Your surname is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.password === null || values.password === "") {
+      errors.password = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.password.length < 3 || values.password.length >= 20) {
+      errors.password = 'Password must be between 3 and 20 characters';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.passwordRep === null || values.passwordRep === "") {
+      errors.passwordRep = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if (values.password !== values.passwordRep) {
+      errors.passwordRep = 'Password mismatch';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.location === null || values.location === "") {
+      errors.location = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(location.value)) {
+      errors.location = 'This location is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.location.length < 3 || values.location.length >= 20) {
+      errors.location = 'Location name is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(age.value < 18 || age.value >= 100) {
+      errors.age = 'This age is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.age === null || values.age === "") {
+      errors.age = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.acceptbutton === "no") {
+      errors.acceptbutton = "You didn't agree to processing of your personal data";
+      setFormErrors(form, errors);
+      return;
+    }
+
+    loaderBox.innerHTML = createLoader();
 
     sendReq({
       url: "/api/users", 
@@ -432,70 +528,6 @@ function createLoader () {
       setInvalidButtonRegister();                   //////// !!!
       alert(`${JSON.stringify(errors, null, 2)}`);
     });
-    
-    if(values.email === null || values.email === "") {
-      errors.email = 'This field is required';
-    }
-    else if(!mailCheck(values.email)) {
-      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-
-    if(values.passwordRep === null || values.passwordRep === "") {
-      errors.passwordRep = 'This field is required';
-    }
-    else if (values.password != values.passwordRep) {
-      errors.passwordRep = 'Password mismatch';
-    }
-
-    if(values.password === null || values.password === "") {
-      errors.password = 'This field is required';
-    }
-    else if(values.password.length < 3 || values.password.length >= 20) {
-      errors.password = 'Password must be between 3 and 20 characters';
-    }
-
-    if(values.name === null || values.name === "") {
-      errors.name = 'This field is required';
-    }
-    else if(parseInt(name.value)) {
-      errors.name = 'This name is not valid';
-    }
-    else if(values.name.length < 3 || values.name.length >= 20) {
-      errors.name = 'Your name is too short or too long';
-    }
-
-    if(values.surname === null || values.surname === "") {
-      errors.surname = 'This field is required';
-    }
-    else if(parseInt(surname.value)) {
-      errors.surname = 'This surname is not valid';
-    }
-    else if(values.surname.length < 3 || values.surname.length >= 20) {
-      errors.surname = 'Your surname is too short or too long';
-    }
-
-    if(values.location === null || values.location === "") {
-      errors.location = 'This field is required';
-    }
-    else if(parseInt(location.value)) {
-      errors.location = 'This location is not valid';
-    }
-    else if(values.location.length < 3 || values.location.length >= 20) {
-      errors.location = 'Location name is too short or too long';
-    }
-
-    if(age.value < 18 || age.value >= 100) {
-      errors.age = 'This age is not valid';
-    }
-    else if(values.age === null || values.age === "") {
-      errors.age = 'This field is required';
-    }
-
-    if(values.acceptbutton === "no") {
-      errors.acceptbutton = "You didn't agree to processing of your personal data";
-    }
-
-    setFormErrors(form, errors);
   });
 })();
 
@@ -505,12 +537,28 @@ function createLoader () {
   let formRegister = document.forms["form-sing-in"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
-    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
-    console.log(values);
     let errors = {};
-    let verified = {};  
+
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.password === null || values.password === "") {
+      errors.password = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    loaderBox.innerHTML = createLoader();
 
     sendReq({
       url: "/api/users/login", 
@@ -548,19 +596,6 @@ function createLoader () {
       setInvalidButtonSingIn();                             
       setFormErrors(form, errors);
     });
-    
-    if(values.email === null || values.email === "") {
-      errors.email = 'This field is required';
-    }
-    else if(!mailCheck(values.email)) {
-      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-
-    if(values.password === null || values.password === "") {
-      errors.password = 'This field is required';
-    }
-
-    setFormErrors(form, errors);
   });
 })();
 
@@ -570,18 +605,88 @@ function createLoader () {
   let formRegister = document.forms["form-message"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
-    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
-    console.log(values);
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
     const email = form.querySelector(".form__input email-js");
     let errors = {};
-    let verified = {};  
     let messageValues = {}; 
     messageValues.to = values.email;
     messageValues.body = JSON.stringify(values);
+
+    if(values.name === null || values.name === "") {
+      errors.name = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(name.value)) {
+      errors.name = 'This name is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.name.length < 3 || values.name.length >= 20) {
+      errors.name = 'Your name is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.message === null || values.message === "") {
+      errors.message = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(message.value)) {
+      errors.message = 'This message is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.message.length < 3 || values.message.length >= 20) {
+      errors.message = 'Your message is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.phone === null || values.phone === "") {
+      errors.phone = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(!phoneCheck(values.phone)) {
+      errors.phone = 'Please enter a valid phone number';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.messagetext === null || values.messagetext === "") { 
+      errors.messagetext = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.messagetext.length < 3) {
+      errors.messagetext = 'Your message is too short';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.acceptbutton === "no") {
+      errors.acceptbutton = "You didn't agree to processing of your personal data";
+      setFormErrors(form, errors);
+      return;
+    }
+
+    loaderBox.innerHTML = createLoader();
 
     sendReq({
       url: "/api/emails", 
@@ -606,63 +711,14 @@ function createLoader () {
           modalMessage.classList.add("modal_close"); 
         }, 2000);
       } else {
-        throw {_message: JSON.stringify(json, null, 2)};
+        throw alert("This mail is already subscribed to the newsletter")
       }
     })
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
-      setFormErrors(form, errors);
-      setInvalidButtonMessage();               //////// !!!
-      alert(`${JSON.stringify(errors, null, 2)}`)
+      setInvalidButtonMessage(); 
     });
-    
-    if(values.email === null || values.email === "") {
-      errors.email = 'This field is required';
-    }
-    else if(!mailCheck(values.email)) {
-      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-
-    if(values.name === null || values.name === "") {
-      errors.name = 'This field is required';
-    }
-    else if(parseInt(name.value)) {
-      errors.name = 'This name is not valid';
-    }
-    else if(values.name.length < 3 || values.name.length >= 20) {
-      errors.name = 'Your name is too short or too long';
-    }
-
-    if(values.message === null || values.message === "") {
-      errors.message = 'This field is required';
-    }
-    else if(parseInt(message.value)) {
-      errors.message = 'This message is not valid';
-    }
-    else if(values.message.length < 3 || values.message.length >= 20) {
-      errors.message = 'Your message is too short or too long';
-    }
-
-    if(values.phone === null || values.phone === "") {
-      errors.phone = 'This field is required';
-    }
-    else if(!phoneCheck(values.phone)) {
-      errors.phone = 'Please enter a valid phone number';
-    }
-
-    if(values.messagetext === null || values.messagetext === "") { 
-      errors.messagetext = 'This field is required';
-    }
-    else if(values.messagetext.length < 3) {
-      errors.messagetext = 'Your message is too short';
-    }
-
-    if(values.acceptbutton === "no") {
-      errors.acceptbutton = "You didn't agree to processing of your personal data";
-    }
-    
-    setFormErrors(form, errors);
   });
 })();
 
@@ -978,7 +1034,6 @@ function createLoader () {
     window.history.replaceState({}, document.title, "?" + params.join("&"));
   }
 
-  console.log();
   const filterForm = document.forms.filterForm;
 
   setAllValuesForForm(filterForm, getValuesFromUrl());

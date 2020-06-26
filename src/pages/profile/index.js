@@ -201,7 +201,6 @@ function errorMessageInputCreate(input, text) {
   message.innerText = text;
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -375,7 +374,6 @@ function updateUserData () {
   })
 
   .then(function (user) {
-    console.log(user.data);
     profileName.innerHTML = user.data.name;
     profileSurname.innerHTML = user.data.surname;
     profileEmail.innerHTML = user.data.email;
@@ -401,13 +399,45 @@ updateUserData ();
   let formRegister = document.forms["form-password-edit"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
-    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
-    console.log(values);
     let errors = {};
-    let verified = {};  
 
+    if(values.oldPassword === null || values.oldPassword === "") {
+      errors.oldPassword = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    
+    if(values.newPassword === null || values.newPassword === "") {
+      errors.newPassword = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.newPassword.length < 3 || values.newPassword.length >= 20) {
+      errors.newPassword = 'Password must be between 3 and 20 characters';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if (values.newPassword === values.oldPassword) {
+      errors.newPassword = 'The new password cannot be the same as the old';
+      setFormErrors(form, errors);
+      return;
+    }
+  
+    if(values.newPasswordRep === null || values.newPasswordRep === "") {
+      errors.newPasswordRep = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if (values.newPassword != values.newPasswordRep) {
+      errors.newPasswordRep = 'New password mismatch';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    loaderBox.innerHTML = createLoader();
+    
     sendReq({
       method: "PUT",
       url: "/api/users",
@@ -441,26 +471,6 @@ updateUserData ();
       setFormErrors(form, errors);               //////// !!!
       alert("ERROR!");
     });
-
-    if(values.oldPassword === null || values.oldPassword === "") {
-      errors.oldPassword = 'This field is required';
-    }
-    
-    if(values.newPassword === null || values.newPassword === "") {
-      errors.newPassword = 'This field is required';
-    }
-    else if (values.password == values.newPassword) {
-      errors.newPassword = 'The new password cannot be the same as the old';
-    }
-
-    if(values.newPasswordRep === null || values.newPasswordRep === "") {
-      errors.newPasswordRep = 'This field is required';
-    }
-    else if (values.newPassword != values.newPasswordRep) {
-      errors.newPasswordRep = 'New password mismatch';
-    }
-
-    setFormErrors(form, errors);
   });
 })();
 
@@ -470,7 +480,6 @@ updateUserData ();
   let formRegister = document.forms["form-editing-data"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
-    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     const name = form.querySelector(".name-js");
@@ -478,7 +487,84 @@ updateUserData ();
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
     let errors = {};
-    let verified = {};
+
+    if(values.email === null || values.email === "") {
+      errors.email = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(!mailCheck(values.email)) {
+      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.name === null || values.name === "") {
+      errors.name = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(name.value)) {
+      errors.name = 'This name is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.name.length < 3 || values.name.length >= 20) {
+      errors.name = 'Your name is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.surname === null || values.surname === "") {
+      errors.surname = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(surname.value)) {
+      errors.surname = 'This surname is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.surname.length < 3 || values.surname.length >= 20) {
+      errors.surname = 'Your surname is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.location === null || values.location === "") {
+      errors.location = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(parseInt(location.value)) {
+      errors.location = 'This location is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.location.length < 3 || values.location.length >= 20) {
+      errors.location = 'Location name is too short or too long';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(age.value < 0 || age.value >= 100) {
+      errors.age = 'This age is not valid';
+      setFormErrors(form, errors);
+      return;
+    }
+    else if(values.age === null || values.age === "") {
+      errors.age = 'This field is required';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    if(values.avatar.length === 0) {
+      errors.avatar = 'You forgot to choose a photo';
+      setFormErrors(form, errors);
+      return;
+    }
+
+    loaderBox.innerHTML = createLoader();
 
     sendReq({
       method: "PUT",
@@ -516,56 +602,6 @@ updateUserData ();
       setInvalidButtonEditingData();               //////// !!!
       alert("ERROR!");
     });
-
-    if(values.email === null || values.email === "") {
-      errors.email = 'This field is required';
-    }
-    else if(!mailCheck(values.email)) {
-      errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-
-    if(values.name === null || values.name === "") {
-      errors.name = 'This field is required';
-    }
-    else if(parseInt(name.value)) {
-      errors.name = 'This name is not valid';
-    }
-    else if(values.name.length < 3 || values.name.length >= 20) {
-      errors.name = 'Your name is too short or too long';
-    }
-
-    if(values.surname === null || values.surname === "") {
-      errors.surname = 'This field is required';
-    }
-    else if(parseInt(surname.value)) {
-      errors.surname = 'This surname is not valid';
-    }
-    else if(values.surname.length < 3 || values.surname.length >= 20) {
-      errors.surname = 'Your surname is too short or too long';
-    }
-
-    if(values.location === null || values.location === "") {
-      errors.location = 'This field is required';
-    }
-    else if(parseInt(location.value)) {
-      errors.location = 'This location is not valid';
-    }
-    else if(values.location.length < 3 || values.location.length >= 20) {
-      errors.location = 'Location name is too short or too long';
-    }
-
-    if(age.value < 0 || age.value >= 100) {
-      errors.age = 'This age is not valid';
-    }
-    else if(values.age === null || values.age === "") {
-      errors.age = 'This field is required';
-    }
-
-    if(values.avatar.length === 0) {
-      errors.avatar = 'You forgot to choose a photo';
-    }
-
-    setFormErrors(form, errors);
   });
 })();
 
