@@ -231,7 +231,6 @@ function errorMessageInputCreate(input, text) {
   message.innerText = text;
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -249,7 +248,6 @@ function verifiedMessageInputCreate (input, text) {
   message.innerText = text;
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -272,10 +270,93 @@ function sendReq({url, method="GET", body={}, headers={}}) {
     headers,
   };
 
+  if(method === "GET") {
+    settings.body = undefined;
+  }
+
   return fetch(SERVER_URL + url, settings);
 }
 
-/* form-register*/
+/* Token */
+
+let buttonProfileOpen = document.querySelector(".header__profile_js");
+let buttonProfileOpenMobile = document.querySelector(".mobile-header__profile_js");
+
+(function checkToken () {
+  const token = localStorage.getItem("token");
+  if(token) {
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+  } else {
+    if(window.location.pathname === "/pages/profile/index.html") {
+      window.location.pathname = "/index.html"
+    }
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+  }
+})();
+
+function updateToken (token) {
+  if(token) {
+    localStorage.setItem("token", token);
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+  } else {
+    localStorage.removeItem("token");
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+  }
+  checkToken();
+}
+
+/* buttons */
+
+let buttonRegisterSubmit = document.querySelector(".button_modal-register");
+let buttonSingInSubmit = document.querySelector(".button_modal-sing-in");
+let buttonMessageSubmit = document.querySelector(".button_modal-message");
+
+function setInvalidButtonRegister() {
+  buttonRegisterSubmit.classList.remove("button_good");
+  buttonRegisterSubmit.classList.add("button_bad"); 
+}
+function setValidButtonRegister() {
+  buttonRegisterSubmit.classList.remove("button_bad"); 
+  buttonRegisterSubmit.classList.add("button_good"); 
+}
+
+function setInvalidButtonSingIn() {
+  buttonSingInSubmit.classList.add("button_bad"); 
+}
+function setValidButtonSingIn() {
+  buttonSingInSubmit.classList.add("button_good"); 
+}
+
+function setInvalidButtonMessage() {
+  buttonMessageSubmit.classList.remove("button_good");
+  buttonMessageSubmit.classList.add("button_bad"); 
+}
+function setValidButtonMessage() {
+  buttonMessageSubmit.classList.remove("button_bad"); 
+  buttonMessageSubmit.classList.add("button_good"); 
+}
+
+/* form-register */
 
 const loaderBox = document.querySelector(".loader-container_js");
 
@@ -323,16 +404,22 @@ function createLoader () {
       if(json.success) {
         let user = json.data;
         loaderBox.innerHTML = "";
-        alert(`пользователь ${user.name} ${user.surname}`);
+        setFormErrors(form, errors, verified);
+        setValidButtonRegister();
+        alert(`User ${user.name} ${user.surname} successfully registered`);
+        setTimeout(function () {
+          modalRegister.classList.add("modal_close");
+        }, 2000);
       } else {
         throw json.errors
       }
     })
-
+    
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
-      setFormErrors(form, errors, verified);               //////// !!!
-      alert(`${JSON.stringify(errors, null, 2)}`)
+      setFormErrors(form, errors, verified);  
+      setInvalidButtonRegister();                   //////// !!!
+      alert(`${JSON.stringify(errors, null, 2)}`);
     });
     
     if(values.email === null || values.email === "") {
@@ -422,17 +509,53 @@ function createLoader () {
   });
 })();
 
-/* Верификация формы sing-in*/
+/* sing-in */
 
 (function() {
   let formRegister = document.forms["form-sing-in"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
     let errors = {};
     let verified = {};  
+
+    sendReq({
+      url: "/api/users/login", 
+      method: "POST", 
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        let data = json.data;
+        loaderBox.innerHTML = "";
+        setValidButtonSingIn();
+        alert(`User with Id ${data.userId} authenticated successfully`); 
+        setTimeout(function () {
+          modalSingIn.classList.add("modal_close"); 
+        }, 2000);
+        localStorage.setItem("userId", data.userId);
+        updateToken(data.token);
+      } else {
+        throw alert("ERROR! This combination, mail and password were not found!");
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";  
+      setInvalidButtonSingIn();                             
+      setFormErrors(form, errors, verified);
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -458,7 +581,7 @@ function createLoader () {
   });
 })();
 
-/* Верификация формы message*/
+/* message */
 
 (function() {
   let formRegister = document.forms["form-message"];
@@ -470,13 +593,17 @@ function createLoader () {
     console.log(values);
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
+    const email = form.querySelector(".form__input email-js");
     let errors = {};
     let verified = {};  
+    let messageValues = {}; 
+    messageValues.to = values.email;
+    messageValues.body = JSON.stringify(values);
 
     sendReq({
       url: "/api/emails", 
       method: "POST", 
-      body: JSON.stringify(values),
+      body: JSON.stringify(messageValues),
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
@@ -488,17 +615,21 @@ function createLoader () {
 
     .then(function (json) {
       if(json.success) {
-        let user = json.data;
         loaderBox.innerHTML = "";
-        alert(`пользователь ${user.name} ${user.surname}`);
+        alert(`User successfully subscribed to email newsletter`);
+        setValidButtonMessage();
+        setTimeout(function () {
+          modalMessage.classList.add("modal_close"); 
+        }, 2000);
       } else {
-        throw json.errors
+        throw {_message: JSON.stringify(json, null, 2)};
       }
     })
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
-      setFormErrors(form, errors, verified);               //////// !!!
+      setFormErrors(form, errors, verified);
+      setInvalidButtonMessage();               //////// !!!
       alert(`${JSON.stringify(errors, null, 2)}`)
     });
     
@@ -594,6 +725,7 @@ function init() {
   for(let i = 0; i < slides.length; i++) {
     let dot = document.createElement("button");
     dot.classList.add("slider__dot");
+    dot.setAttribute("aria-label", "Pagination dot");
     if(i === activeSlide) {
       dot.classList.add("slider__dot_active");
     }

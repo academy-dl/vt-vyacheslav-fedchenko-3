@@ -261,12 +261,124 @@ function verifiedMessageInputCreate (input, text) {
   })
 }
 
-/* Верификация формы form-register*/
+/* fetch */
+
+const SERVER_URL = "https://academy.directlinedev.com";
+
+function sendReq({url, method="GET", body={}, headers={}}) {
+  const settings = {
+    method,
+    body,
+    headers,
+  };
+
+  if(method === "GET") {
+    settings.body = undefined;
+  }
+
+  return fetch(SERVER_URL + url, settings);
+}
+
+/* Token */
+
+let buttonProfileOpen = document.querySelector(".header__profile_js");
+let buttonProfileOpenMobile = document.querySelector(".mobile-header__profile_js");
+
+(function checkToken () {
+  const token = localStorage.getItem("token");
+  if(token) {
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+  } else {
+    if(window.location.pathname === "/pages/profile/index.html") {
+      window.location.pathname = "/index.html"
+    }
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+  }
+})();
+
+function updateToken (token) {
+  if(token) {
+    localStorage.setItem("token", token);
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+  } else {
+    localStorage.removeItem("token");
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+  }
+  checkToken();
+}
+
+/* buttons */
+
+let buttonRegisterSubmit = document.querySelector(".button_modal-register");
+let buttonSingInSubmit = document.querySelector(".button_modal-sing-in");
+let buttonMessageSubmit = document.querySelector(".button_modal-message");
+
+function setInvalidButtonRegister() {
+  buttonRegisterSubmit.classList.remove("button_good");
+  buttonRegisterSubmit.classList.add("button_bad"); 
+}
+function setValidButtonRegister() {
+  buttonRegisterSubmit.classList.remove("button_bad"); 
+  buttonRegisterSubmit.classList.add("button_good"); 
+}
+
+function setInvalidButtonSingIn() {
+  buttonSingInSubmit.classList.add("button_bad"); 
+}
+function setValidButtonSingIn() {
+  buttonSingInSubmit.classList.add("button_good"); 
+}
+
+function setInvalidButtonMessage() {
+  buttonMessageSubmit.classList.remove("button_good");
+  buttonMessageSubmit.classList.add("button_bad"); 
+}
+function setValidButtonMessage() {
+  buttonMessageSubmit.classList.remove("button_bad"); 
+  buttonMessageSubmit.classList.add("button_good"); 
+}
+
+/* form-register */
+
+const loaderBox = document.querySelector(".loader-container_js");
+
+function createLoader () {
+  return `
+  <div class="container-loader">
+    <div class="load-3">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </div>
+  `
+}
 
 (function() {
   let formRegister = document.forms["form-register"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
@@ -275,7 +387,42 @@ function verifiedMessageInputCreate (input, text) {
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
     let errors = {};
-    let verified = {};
+    let verified = {}; 
+
+    sendReq({
+      url: "/api/users", 
+      method: "POST", 
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        let user = json.data;
+        loaderBox.innerHTML = "";
+        setFormErrors(form, errors, verified);
+        setValidButtonRegister();
+        alert(`User ${user.name} ${user.surname} successfully registered`);
+        setTimeout(function () {
+          modalRegister.classList.add("modal_close");
+        }, 2000);
+      } else {
+        throw json.errors
+      }
+    })
+    
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";                               
+      setFormErrors(form, errors, verified);  
+      setInvalidButtonRegister();                   //////// !!!
+      alert(`${JSON.stringify(errors, null, 2)}`);
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -364,17 +511,53 @@ function verifiedMessageInputCreate (input, text) {
   });
 })();
 
-/* Верификация формы sing-in*/
+/* sing-in */
 
 (function() {
   let formRegister = document.forms["form-sing-in"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
     let errors = {};
     let verified = {};  
+
+    sendReq({
+      url: "/api/users/login", 
+      method: "POST", 
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        let data = json.data;
+        loaderBox.innerHTML = "";
+        setValidButtonSingIn();
+        alert(`User with Id ${data.userId} authenticated successfully`); 
+        setTimeout(function () {
+          modalSingIn.classList.add("modal_close"); 
+        }, 2000);
+        localStorage.setItem("userId", data.userId);
+        updateToken(data.token);
+      } else {
+        throw alert("ERROR! This combination, mail and password were not found!");
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";  
+      setInvalidButtonSingIn();                             
+      setFormErrors(form, errors, verified);
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -400,20 +583,57 @@ function verifiedMessageInputCreate (input, text) {
   });
 })();
 
-/* Верификация формы message*/
+/* message */
 
 (function() {
   let formRegister = document.forms["form-message"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
-
+    const email = form.querySelector(".form__input email-js");
     let errors = {};
     let verified = {};  
+    let messageValues = {}; 
+    messageValues.to = values.email;
+    messageValues.body = JSON.stringify(values);
+
+    sendReq({
+      url: "/api/emails", 
+      method: "POST", 
+      body: JSON.stringify(messageValues),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then(function (json) {
+      if(json.success) {
+        loaderBox.innerHTML = "";
+        alert(`User successfully subscribed to email newsletter`);
+        setValidButtonMessage();
+        setTimeout(function () {
+          modalMessage.classList.add("modal_close"); 
+        }, 2000);
+      } else {
+        throw {_message: JSON.stringify(json, null, 2)};
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";                               
+      setFormErrors(form, errors, verified);
+      setInvalidButtonMessage();               //////// !!!
+      alert(`${JSON.stringify(errors, null, 2)}`)
+    });
     
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -480,8 +700,6 @@ function verifiedMessageInputCreate (input, text) {
 })();
 
 /* фильтр */
-
-const SERVER_URL = "https://academy.directlinedev.com";
 
 (function () {
   let tagsBox = document.querySelector(".filter__tag");
@@ -554,14 +772,18 @@ const SERVER_URL = "https://academy.directlinedev.com";
         tagsHTML += createTag(tags[i]);
       }
       tagsBox.innerHTML = tagsHTML;
-      setAllValuesForForm(filterForm, getValuesFromUrl());  ////// ?????
-      startParam ();
+      setAllValuesForForm(filterForm, getValuesFromUrl());  
+      startParam ();                                              /////////////////////////////////////////////////////////////// настроить функцию
     } else {
       alert("ERROR!");
     }
   }, function () {
     tagsBox.innerHTML = createLoader();
   });
+
+  if(typeof allValuesPage.tags !== "object") {  
+    allValuesPage.tags = [allValuesPage.tags];
+  }
 
   getCards(allValuesPage);
 
@@ -572,7 +794,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     let tags = JSON.stringify(allValuesPage.tags || []);
 
     let commentsArr = allValuesPage.commentsCount || []; 
-    let minComm = 1000000;
+    let minComm = 51;
     let maxComm = -1;
     for(let i=0; i < commentsArr.length; i++) {
       let a = commentsArr[i].split("-")[0];
@@ -583,18 +805,18 @@ const SERVER_URL = "https://academy.directlinedev.com";
 
     let filter = {};
     let str = "";
-    if(minComm !== 1000000 && maxComm !== -1) {
+    if(minComm !== 51 && maxComm !== -1) {
       filter.commentsCount = {"$between": [minComm, maxComm]}
     }
     if(Object.keys(filter)) {
       str = "&filter="+JSON.stringify(filter);   
     }
 
-    let allViews = +allValuesPage.views;
-    let maxViews = 1000000;
-    maxViews = +getMax(+maxViews, +allViews);
-
-    filter.views = {"$between": [allViews, maxViews]} ;
+    let allViews = allValuesPage.views || "";
+    let minViews = allViews.split("-")[0];
+    let maxViews = allViews.split("-")[1];
+    
+    filter.views = {"$between": [minViews, maxViews]} ;
     
     if(Object.keys(filter)) {
       str = "&filter="+JSON.stringify(filter);   
@@ -651,14 +873,14 @@ const SERVER_URL = "https://academy.directlinedev.com";
 
   function createTagBlock(tags) {
     return `
-      <li class="blog__tag blog__tag_${tags.tagId}"></li>
+      <li aria-label="tag ${tags.tagId}" class="blog__tag blog__tag_${tags.tagId}"></li>
     `
   }
 
   function createTag(tag) {
     return `
     <label class="filter__checkbox-label">
-      <input class="filter__form-checkbox hidden" type="checkbox" value="${tag.id}" name="tags">
+      <input aria-label="tag ${tag.id}" class="filter__form-checkbox hidden" type="checkbox" value="${tag.id}" name="tags">
       <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_2 filter__form-checkbox-indicator_tag-${tag.id}"></span>
     </label>
     `
@@ -774,7 +996,7 @@ const SERVER_URL = "https://academy.directlinedev.com";
     return params;
   }
 
-  function setValuesToUrl(values) {   ///// ошибка с записью тегов в массив
+  function setValuesToUrl(values) {
     let params = [];
     let names = Object.keys(values);
     for(let i = 0; i < names.length; i++) {
@@ -803,15 +1025,23 @@ const SERVER_URL = "https://academy.directlinedev.com";
     getCards(allValuesPage);
   });
 
+  let page = 0;
+  let pages = 0;
+
   function createPagination (countPage, activePage) {
     let links = document.querySelector(".selector-pages");
     links.innerHTML = "";
+    
     for(let i = 0; i < countPage; i++) {
       let link = document.createElement("a");
       link.classList.add("selector-link");
+      link.setAttribute("href", "#");
+      link.setAttribute("aria-label", "Page" + " " + (i+1));
+      page = activePage;
+      pages = Math.ceil(countPage);
       
       if(activePage === i+1){
-        link.classList.add("selector-link_active");
+        link.classList.add("selector-link_active");       
       }
       link.innerHTML = i+1; 
       link.addEventListener("click", function(event){
@@ -824,37 +1054,54 @@ const SERVER_URL = "https://academy.directlinedev.com";
       })
       links.insertAdjacentElement("beforeend", link);
     }
-    
-    buttonNext.addEventListener("click", function () {    ////// настроить работу стрелок пагинации 
-      if(activePage < countPage) {
-        activePage += 1;
-        let value = getAllValuesFromForm(filterForm);
-        value.page = activePage + "";
-        setValuesToUrl(value);
-        allValuesPage = value;
-        getCards(allValuesPage);
-      }
-    })
-
-    buttonBack.addEventListener("click", function () {
-      if(activePage > 1) {
-        activePage -= 1;
-        let value = getAllValuesFromForm(filterForm);
-        value.page = activePage + "";
-        setValuesToUrl(value);
-        allValuesPage = value;
-        getCards(allValuesPage);
-      }
-    })
   }
 
-  function startParam() {  ////// настроить фунцию стартовых параметров 
+  function setActivePage(index) {
+    if(page - index > 0) {
+      buttonNext.removeAttribute("disabled");
+    }
+    if(page - index < 0) {
+      buttonBack.removeAttribute("disabled");
+    }
+    if(index === 0) {
+      buttonBack.setAttribute("disabled", "disabled");
+    }
+    if(index === pages) {
+      buttonNext.setAttribute("disabled", "disabled");
+    }
+    page = index;
+  }
+
+  buttonNext.addEventListener("click", function () {
+    const index = page + 1;
+    setActivePage(index); 
+    let value = getAllValuesFromForm(filterForm);
+    value.page = index + "";
+    setValuesToUrl(value);
+    allValuesPage = value;
+    getCards(allValuesPage);    
+  })
+  
+  buttonBack.addEventListener("click", function () {  
+    const index = page - 1;
+    setActivePage(index);   
+    if(page > 0) {  
+      let value = getAllValuesFromForm(filterForm);
+      value.page = index + "";
+      setValuesToUrl(value);
+      allValuesPage = value;
+      getCards(allValuesPage);
+    }
+  })
+
+  function startParam() {  
     let value = getAllValuesFromForm(filterForm);
     value.tags = [1, 6];
     setValuesToUrl(value);
     allValuesPage = value;
     getCards(allValuesPage);
     setAllValuesForForm(filterForm, getValuesFromUrl());
-    setValuesToUrl(allValuesPage);
+    setValuesToUrl(getAllValuesFromForm(filterForm));
+    getCards(getAllValuesFromForm(filterForm));
   }
 })();

@@ -55,10 +55,40 @@
     }
   }
 
+  &_bad {
+    background-color: $white;
+    color: $red;
+    border-color: $red;
+    transition: color .4s, border-color .4s;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $red;
+      border-color: $red;
+			color: $white;
+    }
+  }
+
+  &_good {
+    background-color: $white;
+    color: $green-2;
+    border-color: $green-2;
+    transition: color .4s, border-color .4s;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $green-2;
+      border-color: $green-2;
+			color: $white;
+    }
+  }
+
   &:disabled {
 		background-color: $white;
 		color: $light-gray;
 		border-color: $light-gray;
-    cursor: not-allowed;
+    cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
   }
 }

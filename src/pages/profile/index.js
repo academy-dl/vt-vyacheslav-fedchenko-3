@@ -92,7 +92,10 @@ window.addEventListener("keydown", function(event){
 
 /* Верификация форм */
 
-function getValuesForm(form) {
+function getValuesForm(form, type) {
+  if(type === "formData") {
+    return new FormData(form);
+  }
   let body = {};
   const inputs = form.querySelectorAll("input");
   let l = inputs.length;
@@ -225,25 +228,216 @@ function verifiedMessageInputCreate (input, text) {
   }
 }
 
-/* Верификация формы sing-in*/
+/* buttons */
+
+let buttonEditingData = document.querySelector(".button_modal-editing-data");
+let buttonPasswordEdit = document.querySelector(".button_modal-password-edit");
+
+function setInvalidEditingData() {
+  buttonEditingData.classList.add("button_bad");
+  buttonEditingData.classList.remove("button_good");  
+}
+function setValidEditingData() {
+  buttonEditingData.classList.add("button_good"); 
+  buttonEditingData.classList.remove("button_bad");
+}
+
+function setInvalidPasswordEdit() {
+  buttonPasswordEdit.classList.add("button_bad"); 
+  buttonPasswordEdit.classList.remove("button_good");
+}
+function setValidPasswordEdit() {
+  buttonPasswordEdit.classList.add("button_good");
+  buttonPasswordEdit.classList.remove("button_bad");  
+}
+
+/* fetch */
+
+const SERVER_URL = "https://academy.directlinedev.com";
+
+function sendReq({url, method="GET", body={}, headers={}}) {
+  let settings = {
+    method,
+    body,
+    headers,
+  };
+
+  if(method === "GET") {
+    settings.body = undefined;
+  }
+
+  return fetch(SERVER_URL + url, settings);
+}
+
+/* Token */
+
+let buttonSingInOpen = document.querySelector(".header__sing-in-button_js");
+let buttonSingInOpenMobile = document.querySelector(".mobile-header__sing-in-button_js");
+let buttonRegisterOpen = document.querySelector(".header__register-button_js");
+let buttonRegisterOpenMobile = document.querySelector(".mobile-header__register-button_js");
+let buttonProfileOpen = document.querySelector(".header__profile_js");
+let buttonProfileOpenMobile = document.querySelector(".mobile-header__profile_js");
+let buttonSingOut = document.querySelector(".header__sing-out-button_js");
+let buttonSingOutMobile = document.querySelector(".mobile-header__sing-out-button_js");
+
+(function checkToken () {
+  const token = localStorage.getItem("token");
+  if(token) {
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+    buttonSingOut.classList.remove("hidden-block");
+    buttonSingOutMobile.classList.remove("hidden");
+  } else {
+    if(window.location.pathname === "/pages/profile/index.html") {
+      window.location.pathname = "/index.html"
+    }
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+    buttonSingOut.classList.add("hidden-block");
+    buttonSingOutMobile.classList.add("hidden");
+  }
+})();
+
+function updateToken (token) {
+  if(token) {
+    localStorage.setItem("token", token);
+    buttonSingInOpen.classList.add("hidden-block");
+    buttonSingInOpenMobile.classList.add("hidden");
+    buttonRegisterOpen.classList.add("hidden-block");
+    buttonRegisterOpenMobile.classList.add("hidden");
+    buttonProfileOpen.classList.remove("hidden-block");
+    buttonProfileOpenMobile.classList.remove("hidden");
+    buttonSingOut.classList.remove("hidden-block");
+    buttonSingOutMobile.classList.remove("hidden");
+  } else {
+    localStorage.removeItem("token");
+    buttonSingInOpen.classList.remove("hidden-block");
+    buttonSingInOpenMobile.classList.remove("hidden");
+    buttonRegisterOpen.classList.remove("hidden-block");
+    buttonRegisterOpenMobile.classList.remove("hidden");
+    buttonProfileOpen.classList.add("hidden-block");
+    buttonProfileOpenMobile.classList.add("hidden");
+    buttonSingOut.classList.add("hidden-block");
+    buttonSingOutMobile.classList.add("hidden");
+  }
+  checkToken();
+}
+
+const loaderBox = document.querySelector(".loader-container_js");
+
+function createLoader () {
+  return `
+  <div class="container-loader">
+    <div class="load-3">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </div>
+  `
+}
+
+const profileImg = document.querySelector(".profile__img");
+const profileName = document.querySelector(".profile__name");
+const profileSurname = document.querySelector(".profile__surname");
+const profileEmail = document.querySelector(".profile__email");
+const profileLocation = document.querySelector(".profile__location");
+const profileAge = document.querySelector(".profile__age");
+
+let userData = {};
+
+function updateUserData () {
+  sendReq({
+    method: "GET",
+    url: "/api/users/" + localStorage.getItem("userId"), 
+  })
+
+  .then(function (res) {
+    return res.json();
+  })
+
+  .then(function (user) {
+    console.log(user.data);
+    profileName.innerHTML = user.data.name;
+    profileSurname.innerHTML = user.data.surname;
+    profileEmail.innerHTML = user.data.email;
+    profileLocation.innerHTML = user.data.location;
+    profileAge.innerHTML = user.data.age;
+    profileImg.style = `
+    background-image: url(${SERVER_URL}${user.data.photoUrl});
+    background-position: center;
+    background-size: cover;
+    `
+    userData = user.data;
+  })
+  .catch(function (error) {
+    alert("Information about you is not available.");
+  })
+}
+
+updateUserData ();
+
+/*password edit*/
 
 (function() {
   let formRegister = document.forms["form-password-edit"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
     console.log(values);
     let errors = {};
     let verified = {};  
 
-    if(values.password === null || values.password === "") {
-      errors.password = 'This field is required';
+    sendReq({
+      method: "PUT",
+      url: "/api/users",
+      body: getValuesForm(form, "formData"),
+      headers: {
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then (function (res) {
+      if(res.success) {
+        updateUserData();
+        loaderBox.innerHTML = "";
+        setValidPasswordEdit();
+        setTimeout(function () {
+          modalPasswordEdit.classList.add("modal_close");
+        }, 2000);
+      } else {
+        throw json.errors
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";
+      setInvalidPasswordEdit();                               
+      setFormErrors(form, errors, verified);               //////// !!!
+      alert("ERROR!");
+    });
+
+    if(values.oldPassword === null || values.oldPassword === "") {
+      errors.oldPassword = 'This field is required';
     }
     else {
-      verified.password = 'All right';
+      verified.oldPassword = 'All right';
     }
-
+    
     if(values.newPassword === null || values.newPassword === "") {
       errors.newPassword = 'This field is required';
     }
@@ -268,21 +462,57 @@ function verifiedMessageInputCreate (input, text) {
   });
 })();
 
-/* Верификация формы editing-data*/
+/*editing-data*/
 
 (function() {
   let formRegister = document.forms["form-editing-data"];
   formRegister.addEventListener("submit", function(event) {
     event.preventDefault();
+    loaderBox.innerHTML = createLoader();
     const form = event.target;
     const values = getValuesForm(form);
-    console.log(values);
     const name = form.querySelector(".name-js");
     const surname = form.querySelector(".surname-js");
     const location = form.querySelector(".location-js");
     const age = form.querySelector(".age-js");
     let errors = {};
-    let verified = {};  
+    let verified = {};
+
+    sendReq({
+      method: "PUT",
+      url: "/api/users",
+      body: getValuesForm(form, "formData"),
+      headers: {
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then (function (res) {
+      if(res.success) {
+        updateUserData();
+        loaderBox.innerHTML = "";
+        setValidEditingData();
+        setTimeout(function () {
+          modalEditingData.classList.add("modal_close");
+        }, 2000);
+        setTimeout(function () {
+          window.location.reload();
+        }, 1000);
+      } else {
+        throw json.errors
+      }
+    })
+
+    .catch(function(errors) {       
+      loaderBox.innerHTML = "";                            
+      setFormErrors(form, errors, verified); 
+      setInvalidEditingData();               //////// !!!
+      alert("ERROR!");
+    });
 
     if(values.email === null || values.email === "") {
       errors.email = 'This field is required';
@@ -368,3 +598,51 @@ if (window.FileList && window.File) {
     }
   }); 
 }
+
+/* Delete profile */
+
+let profileDeleteButton = document.querySelector(".profile__button-delete-js");  //Error 403
+
+(function() {
+  profileDeleteButton.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    sendReq({
+      method: "DELETE",
+      url: "/api/users/" + localStorage.getItem("userId"),
+      headers: {       
+        "x-access-token": localStorage.getItem("token") 
+      }
+    })
+  
+    .then(function (res) {
+      return res.json();
+    })
+
+    .then (function (res) {
+      if(res.success) {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        alert("User successfully deleted!");
+        window.location.pathname = "/index.html";
+      } else {
+        throw alert("ERROR!");
+      }
+    })
+  })
+})();
+
+/* Sing out profile */
+
+let singOutProfile = document.querySelector(".header__sing-out-button_js");
+let singOutProfileMobile = document.querySelector(".mobile-header__sing-out-button_js");
+
+singOutProfile.addEventListener("click", function(){
+  localStorage.removeItem("token");
+  window.location.pathname = "/index.html";
+});
+
+singOutProfileMobile.addEventListener("click", function(){
+  localStorage.removeItem("token");
+  window.location.pathname = "/index.html";
+});

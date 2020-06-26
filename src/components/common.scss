@@ -49,6 +49,10 @@ input {
   height: 1px !important;
   width: 1px !important;
   overflow: hidden;
+
+  &-block {
+    display: none;
+  }
 }
 
 .container {
@@ -369,6 +373,16 @@ input {
 }
 
 input {
+  &:focus {
+    border: 2px solid $black;
+  }
+
+  &:focus:hover {
+    border: 2px solid $black;
+  }
+}
+
+textarea {
   &:focus {
     border: 2px solid $black;
   }

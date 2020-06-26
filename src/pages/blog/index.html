@@ -14,7 +14,13 @@
   </head>
   <body>
     @@include('header/index.html', { 
-      "class": "header header_2"
+      "class": "header header_2",
+      "class__home-link": "header__home-link header__hover",
+      "class__blog-link": "header__nav-item header__active header__hover",
+      "class__profile-link": "header__nav-item header__profile_js header__hover hidden-block",
+      "class__home-link-mobile": "mobile-header__nav-item header__hover",
+      "class__blog-link-mobile": "mobile-header__nav-item mobile-header__nav-item_active header__hover",
+      "class__profile-link-mobile": "mobile-header__nav-item mobile-header__profile_js header__hover hidden",
     })
     <main>
       <div class="container">
@@ -26,31 +32,31 @@
           <fieldset class="filter__views filter__fieldset">
             <legend class="filter__legend">Views</legend>
               <label class="filter__radio-label">
-                <input class="filter__form-radio hidden" type="radio" value="100" name="views" checked>
-                <span class="filter__form-radio-indicator">more 100</span>
+                <input class="filter__form-radio hidden" type="radio" value="100-500" name="views" checked>
+                <span class="filter__form-radio-indicator">100-500</span>
               </label>
               <label class="filter__radio-label">
-                <input class="filter__form-radio hidden" type="radio" value="500" name="views">
-                <span class="filter__form-radio-indicator">more 500</span>
+                <input class="filter__form-radio hidden" type="radio" value="500-1000" name="views">
+                <span class="filter__form-radio-indicator">500-1000</span>
               </label>
               <label class="filter__radio-label">
-                <input class="filter__form-radio hidden" type="radio" value="1000" name="views">
-                <span class="filter__form-radio-indicator">more 1000</span>
+                <input class="filter__form-radio hidden" type="radio" value="1000-2000" name="views">
+                <span class="filter__form-radio-indicator">1000-2000</span>
               </label>
           </fieldset>
           <fieldset class="filter__comments filter__fieldset">
             <legend class="filter__legend">Comments</legend>
               <label class="filter__checkbox-label">
                 <input class="filter__form-checkbox hidden" type="checkbox" value="0-0" name="commentsCount">
-                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">not a single </span>
+                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">0</span>
+              </label>
+              <label class="filter__checkbox-label">
+                <input class="filter__form-checkbox hidden" type="checkbox" value="0-1" name="commentsCount">
+                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">0-1</span>
               </label>
               <label class="filter__checkbox-label">
                 <input class="filter__form-checkbox hidden" type="checkbox" value="1-50" name="commentsCount">
-                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">more 1</span>
-              </label>
-              <label class="filter__checkbox-label">
-                <input class="filter__form-checkbox hidden" type="checkbox" value="50-999999" name="commentsCount">
-                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">more 50</span>
+                <span class="filter__form-checkbox-indicator filter__form-checkbox-indicator_main">1-50</span>
               </label>
           </fieldset>
           <fieldset class="filter__how-show filter__fieldset">
@@ -84,9 +90,9 @@
             "class": "filter__reset-button button_white",
             "text": "Apply"
             })
-          <fieldset class="filter__form filter__fieldset">
+          <fieldset class="filter__form filter__search filter__fieldset">
             <label class="filter__form-label" for="filter-search">
-              <input type="text" class="filter__form-input" id="filter-search" name="search"/>
+              <input aria-label="Search by word" type="text" class="filter__form-input" id="filter-search" name="search"/>
             </label>
             @@include('button/index.html', { 
               "type": "submit",
@@ -98,7 +104,7 @@
         <ul class="blog list-point-none">
         </ul>
         <div class="selector">
-          <button class="selector-btn selector-btn_back">
+          <button aria-label="Button back" class="selector-btn selector-btn_back">
             <svg width="15" height="24" viewBox="0 0 15 24" xmlns="http://www.w3.org/2000/svg">
               <rect x="12.5791" y="23.6992" width="16.5512" height="3" rx="1.5" transform="rotate(-135 12.5791 23.6992)" />
               <rect x="14.7002" y="2.41992" width="16.5512" height="3" rx="1.5" transform="rotate(135 14.7002 2.41992)" />
@@ -106,7 +112,7 @@
           </button>
           <ul class="selector-pages list-point-none">
           </ul>
-          <button class="selector-btn selector-btn_forward">
+          <button aria-label="Button forward" class="selector-btn selector-btn_forward">
             <svg width="15" height="24" viewBox="0 0 15 24" xmlns="http://www.w3.org/2000/svg">
               <rect x="2.42139" y="0.300781" width="16.5512" height="3" rx="1.5" transform="rotate(45 2.42139 0.300781)" />
               <rect x="0.300049" y="21.5801" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300049 21.5801)" />
@@ -158,11 +164,11 @@
           </label>
           @@include('button/index.html', {
             "type": "submit",
-            "class": "form__submit-button button_modal",
+            "class": "form__submit-button button_modal button_modal-register",
             "text": "Sign up"
             })
         </form>
-        <button type="button" class="modal__close modal__close_register-js">
+        <button aria-label="Button close" type="button" class="modal__close modal__close_register-js">
           <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
             <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
             <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
@@ -183,11 +189,11 @@
           </div>
           @@include('button/index.html', {
             "type": "submit",
-            "class": "form__submit-button form__submit-button_2 button_white",
+            "class": "form__submit-button form__submit-button_2 button_white button_modal-sing-in",
             "text": "Log in"
             })
         </form>
-        <button type="button" class="modal__close modal__close_sing-in-js">
+        <button aria-label="Button close" type="button" class="modal__close modal__close_sing-in-js">
           <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
             <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
             <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
@@ -195,7 +201,7 @@
         </button>
       </div>
     </div>
-    <button class="top-button">
+    <button aria-label="Button top" class="top-button">
       <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.300781" y="12.5786" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300781 12.5786)" fill="#070707"/>
         <rect x="21.5801" y="14.7" width="16.5512" height="3" rx="1.5" transform="rotate(-135 21.5801 14.7)" fill="#070707"/>
@@ -204,6 +210,7 @@
     @@include('footer/index.html', { 
       "class": "footer footer_2"
     })
+    <div class="loader-container_js"></div>
     <script src="./index.js"></script>
   </body>
 </html>

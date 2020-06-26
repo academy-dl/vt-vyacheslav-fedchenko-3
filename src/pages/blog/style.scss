@@ -28,6 +28,7 @@
 
   &__fieldset {
 		display: flex;
+		flex-direction: column;
 		border: 0 none;
 		margin-left: 20px;
 		margin-right: 20px;
@@ -47,7 +48,7 @@
 		}
 
 		& ~ .filter__form {
-			display: initial;
+			display: block;
 
 			@media (max-width: 712px) {
 				display: flex;
@@ -59,7 +60,11 @@
 
 		@media (max-width: 858px) {
 			order: 1;
-			margin-right: 18px;
+			margin-right: 84px;
+		}
+
+		@media (max-width: 350px) {
+			margin-right: 50px;
 		}
 	}
 
@@ -67,10 +72,11 @@
 
 		@media (max-width: 858px) {
 			order: 2;
+			margin-right: 7px;
 		}
 
-		@media (max-width: 430px) {
-			margin-right: 15px;
+		@media (max-width: 439px) {
+			margin-right: 10px;
 		}
 	}
 
@@ -98,7 +104,7 @@
 			margin-right: 40px;
 		}
 
-		@media (max-width: 592px) {
+		@media (max-width: 580px) {
 			margin-left: 10px;
 			margin-right: 38px;
 		}
@@ -114,7 +120,7 @@
 		}
 
 		@media (max-width: 445px) {
-			margin-right: 34px;
+			margin-right: 41px;
 		}
 	}
 
@@ -398,7 +404,7 @@
 
 		&-input {
 			padding: 13px 11px;
-			width: 87.3%;
+			width: 87.2%;
 			font-family: "Roboto", "Arial", sans-serif;
 			font-weight: normal;
 			font-size: $normal;
@@ -494,6 +500,7 @@ input:focus + .filter__form-radio-indicator {
 	&__img {
 		width: 100%;
 		height: 100%;
+		background-color: $light-gray;
 
 		&-box {
 			min-width: 320px;
@@ -678,7 +685,7 @@ input:focus + .filter__form-radio-indicator {
 		&:disabled {
 			fill: $light-gray;
 			border-color: $light-gray;
-			cursor: not-allowed;
+			cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
 		}
 	}
 

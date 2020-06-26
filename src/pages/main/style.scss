@@ -62,7 +62,8 @@
 	}
 
 	&__img {
-    height: 100%;
+		height: 100%;
+		background-color: $light-gray;
 	}
 
   &__slide {
@@ -150,7 +151,7 @@
       fill: $light-gray;
 			border-color: $light-gray;
 			user-select: none;
-			cursor: not-allowed;
+			cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
     }
   }
 }
@@ -387,10 +388,11 @@
 				left: 0;
 				background-color: $black;
 				height: 9px;
+				animation: loadingA 4s ease-out infinite;		
 			}
 
 			&_html::before {
-				width: 85%;
+				width: 85%;		
 			}
 
 			&_css::before {
@@ -409,6 +411,18 @@
 				width: 80%;
 			}
 		}
+	}
+}
+
+@keyframes loadingA {
+  0% {
+		width: 0%;
+  }
+  50%, 80% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
 	}
 }
 
@@ -438,6 +452,7 @@
 	&__img {
 		width: 100%;
 		height: 100%;
+		background-color: $light-gray;
 	}
 
 	&__btn {

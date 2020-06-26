@@ -45,7 +45,7 @@
     }
   }
 
-  &_hover {
+  &__hover {
     transition: color .4s;
     opacity: 1;
 
@@ -59,7 +59,7 @@
 		display: flex;
 		align-items: center;
 		font-weight: bold;
-		color: $black;
+		color: $gray;
 		margin-left: 10px;
 
 		@media (max-width: 768px) {
@@ -68,10 +68,6 @@
 		
 		@media (max-width: 600px) {
       display: none;
-    }
-
-		&:hover {
-			color: $gray;
     }
 	}
 
@@ -95,6 +91,7 @@
 	}
 
 	&__sing-in-button,
+	&__sing-out-button,
 	&__register-button {
 		padding: 0;
 		border: none;
@@ -115,6 +112,16 @@
 				display: initial;
 			}
 		}
+	}
+
+	&__active {
+		transition: color .4s;
+		color: $black;
+
+		&:hover {
+			color: $gray;
+			cursor: pointer;
+    }
 	}
 }
 
@@ -170,6 +177,7 @@
 	}
 
 	&__sing-in-button,
+	&__sing-out-button,
 	&__register-button {
 		padding: 0;
 		border: none;
