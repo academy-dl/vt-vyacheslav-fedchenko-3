@@ -178,7 +178,7 @@ function setInvalidCheck(span) {
   span.classList.add("form__checkbox-indicator_bad");
 }
 
-function setFormErrors(form, errors, verified) {
+function setFormErrors(form, errors) {
   const inputs = form.querySelectorAll("input");
   const textareas = form.querySelectorAll("textarea");
   const span = form.querySelector(".form__checkbox-indicator");
@@ -196,24 +196,34 @@ function setFormErrors(form, errors, verified) {
           setInvalidInput(input);
           errorMessageInputCreate(input, errors[input.name]);
         }
-        else {
-          setValidInput(input);
-          verifiedMessageInputCreate(input, verified[input.name]);
-        }
         break;
     }
   }
   l = textareas.length;
-  for (let i = 0; i < l; i++) {
+  for (let i = 0; i < l; i++) {  
     const textarea = textareas[i];
     if(errors[textarea.name]) {
       setInvalidInput(textarea);
       errorMessageInputCreate(textarea, errors[textarea.name]);
     }
-    else {
-      setValidInput(textarea);
-      verifiedMessageInputCreate(textarea, verified[textarea.name]);
-    }
+  }
+}
+
+function setFormSuccess(form) { 
+  const inputs = form.querySelectorAll("input");
+  const textareas = form.querySelectorAll("textarea");
+  const span = form.querySelector(".form__checkbox-indicator");
+  let l = inputs.length;
+  for (let i = 0; i < l; i++) {
+    const input = inputs[i];
+    setValidInput(input);
+    verifiedMessageInputCreate(input); 
+  }
+  l = textareas.length;
+  for (let i = 0; i < l; i++) {  
+    const textarea = textareas[i];
+    setValidInput(textarea);
+    verifiedMessageInputCreate(textarea);
   }
 }
 
@@ -243,13 +253,12 @@ function errorMessageInputCreate(input, text) {
   })
 }
 
-function verifiedMessageInputCreate (input, text) {
+function verifiedMessageInputCreate (input) { 
   let message = document.createElement("div");
   message.classList.add("valid-feedback");
-  message.innerText = text;
+  message.innerText = 'All right';
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -406,7 +415,7 @@ function createLoader () {
       if(json.success) {
         let user = json.data;
         loaderBox.innerHTML = "";
-        setFormErrors(form, errors, verified);
+        setFormSuccess(form);
         setValidButtonRegister();
         alert(`User ${user.name} ${user.surname} successfully registered`);
         setTimeout(function () {
@@ -419,7 +428,7 @@ function createLoader () {
     
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
-      setFormErrors(form, errors, verified);  
+      setFormErrors(form, errors);  
       setInvalidButtonRegister();                   //////// !!!
       alert(`${JSON.stringify(errors, null, 2)}`);
     });
@@ -430,9 +439,6 @@ function createLoader () {
     else if(!mailCheck(values.email)) {
       errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
     }
-    else {
-      verified.email = 'All right';
-    }
 
     if(values.passwordRep === null || values.passwordRep === "") {
       errors.passwordRep = 'This field is required';
@@ -440,18 +446,12 @@ function createLoader () {
     else if (values.password != values.passwordRep) {
       errors.passwordRep = 'Password mismatch';
     }
-    else {
-      verified.passwordRep = 'All right';
-    }
 
     if(values.password === null || values.password === "") {
       errors.password = 'This field is required';
     }
     else if(values.password.length < 3 || values.password.length >= 20) {
       errors.password = 'Password must be between 3 and 20 characters';
-    }
-    else {
-      verified.password = 'All right';
     }
 
     if(values.name === null || values.name === "") {
@@ -463,9 +463,6 @@ function createLoader () {
     else if(values.name.length < 3 || values.name.length >= 20) {
       errors.name = 'Your name is too short or too long';
     }
-    else {
-      verified.name = 'All right';
-    }
 
     if(values.surname === null || values.surname === "") {
       errors.surname = 'This field is required';
@@ -475,9 +472,6 @@ function createLoader () {
     }
     else if(values.surname.length < 3 || values.surname.length >= 20) {
       errors.surname = 'Your surname is too short or too long';
-    }
-    else {
-      verified.surname = 'All right';
     }
 
     if(values.location === null || values.location === "") {
@@ -489,9 +483,6 @@ function createLoader () {
     else if(values.location.length < 3 || values.location.length >= 20) {
       errors.location = 'Location name is too short or too long';
     }
-    else {
-      verified.location = 'All right';
-    }
 
     if(age.value < 18 || age.value >= 100) {
       errors.age = 'This age is not valid';
@@ -499,15 +490,12 @@ function createLoader () {
     else if(values.age === null || values.age === "") {
       errors.age = 'This field is required';
     }
-    else {
-      verified.age = 'All right';
-    }
 
     if(values.acceptbutton === "no") {
       errors.acceptbutton = "You didn't agree to processing of your personal data";
     }
 
-    setFormErrors(form, errors, verified);
+    setFormErrors(form, errors);
   });
 })();
 
@@ -541,10 +529,12 @@ function createLoader () {
       if(json.success) {
         let data = json.data;
         loaderBox.innerHTML = "";
+        setFormSuccess(form);
         setValidButtonSingIn();
         alert(`User with Id ${data.userId} authenticated successfully`); 
         setTimeout(function () {
           modalSingIn.classList.add("modal_close"); 
+          mobileHeader.classList.remove("mobile-header_open");
         }, 2000);
         localStorage.setItem("userId", data.userId);
         updateToken(data.token);
@@ -556,7 +546,7 @@ function createLoader () {
     .catch(function(errors) {       
       loaderBox.innerHTML = "";  
       setInvalidButtonSingIn();                             
-      setFormErrors(form, errors, verified);
+      setFormErrors(form, errors);
     });
     
     if(values.email === null || values.email === "") {
@@ -565,21 +555,12 @@ function createLoader () {
     else if(!mailCheck(values.email)) {
       errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
     }
-    else {
-      verified.email = 'All right';
-    }
 
     if(values.password === null || values.password === "") {
       errors.password = 'This field is required';
     }
-    else if(values.password.length < 3 || values.password.length >= 20) {
-      errors.password = 'Password must be between 3 and 20 characters';
-    }
-    else {
-      verified.password = 'All right';
-    }
 
-    setFormErrors(form, errors, verified);
+    setFormErrors(form, errors);
   });
 })();
 
@@ -619,6 +600,7 @@ function createLoader () {
       if(json.success) {
         loaderBox.innerHTML = "";
         alert(`User successfully subscribed to email newsletter`);
+        setFormSuccess(form);
         setValidButtonMessage();
         setTimeout(function () {
           modalMessage.classList.add("modal_close"); 
@@ -630,7 +612,7 @@ function createLoader () {
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
-      setFormErrors(form, errors, verified);
+      setFormErrors(form, errors);
       setInvalidButtonMessage();               //////// !!!
       alert(`${JSON.stringify(errors, null, 2)}`)
     });
@@ -640,9 +622,6 @@ function createLoader () {
     }
     else if(!mailCheck(values.email)) {
       errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-    else {
-      verified.email = 'All right';
     }
 
     if(values.name === null || values.name === "") {
@@ -654,9 +633,6 @@ function createLoader () {
     else if(values.name.length < 3 || values.name.length >= 20) {
       errors.name = 'Your name is too short or too long';
     }
-    else {
-      verified.name = 'All right';
-    }
 
     if(values.message === null || values.message === "") {
       errors.message = 'This field is required';
@@ -667,18 +643,12 @@ function createLoader () {
     else if(values.message.length < 3 || values.message.length >= 20) {
       errors.message = 'Your message is too short or too long';
     }
-    else {
-      verified.message = 'All right';
-    }
 
     if(values.phone === null || values.phone === "") {
       errors.phone = 'This field is required';
     }
     else if(!phoneCheck(values.phone)) {
       errors.phone = 'Please enter a valid phone number';
-    }
-    else {
-      verified.phone = 'All right';
     }
 
     if(values.messagetext === null || values.messagetext === "") { 
@@ -687,15 +657,12 @@ function createLoader () {
     else if(values.messagetext.length < 3) {
       errors.messagetext = 'Your message is too short';
     }
-    else {
-      verified.messagetext = 'All right';
-    }
 
     if(values.acceptbutton === "no") {
       errors.acceptbutton = "You didn't agree to processing of your personal data";
     }
     
-    setFormErrors(form, errors, verified);
+    setFormErrors(form, errors);
   });
 })();
 

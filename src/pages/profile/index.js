@@ -145,7 +145,7 @@ function setValidLabel(label) {
   }
 }
 
-function setFormErrors(form, errors, verified) {
+function setFormErrors(form, errors) {
   const inputs = form.querySelectorAll("input");
   const label = form.querySelector(".form__label-picture"); 
   let l = inputs.length;
@@ -157,20 +157,31 @@ function setFormErrors(form, errors, verified) {
           setInvalidLabel(label); 
           errorMessageInputCreate(label, errors[input.name]);
         }
-        else {
-          setValidLabel(label); 
-          verifiedMessageInputCreate(label, verified[input.name]);
-        }
         break;
       default:
         if(errors[input.name]) {
           setInvalidInput(input);
           errorMessageInputCreate(input, errors[input.name]);
         }
-        else {
-          setValidInput(input);
-          verifiedMessageInputCreate(input, verified[input.name]); ///
-        }
+        break;
+    }
+  }
+}
+
+function setFormSuccess(form) {
+  const inputs = form.querySelectorAll("input");
+  const label = form.querySelector(".form__label-picture"); 
+  let l = inputs.length;
+  for (let i = 0; i < l; i++) {
+    const input = inputs[i];
+    switch (input.type) {
+      case "file":
+        setValidInput(label);
+        verifiedMessageInputCreate(label);
+        break;
+      default:
+        setValidInput(input);
+        verifiedMessageInputCreate(input); 
         break;
     }
   }
@@ -206,13 +217,12 @@ function errorMessageInputCreate(input, text) {
   }
 }
 
-function verifiedMessageInputCreate (input, text) { 
+function verifiedMessageInputCreate (input) { 
   let message = document.createElement("div");
   message.classList.add("valid-feedback");
-  message.innerText = text;
+  message.innerText = 'All right';
 
   let nextMessage = input.nextElementSibling;
-  console.log(nextMessage);
   if(nextMessage != null) {
     return
   }
@@ -222,7 +232,7 @@ function verifiedMessageInputCreate (input, text) {
     message.remove();
     input.removeEventListener("input", handlerInput);
   })
-  
+
   inputFile.onchange = function() {    //// ?
     message.remove(); 
   }
@@ -233,20 +243,20 @@ function verifiedMessageInputCreate (input, text) {
 let buttonEditingData = document.querySelector(".button_modal-editing-data");
 let buttonPasswordEdit = document.querySelector(".button_modal-password-edit");
 
-function setInvalidEditingData() {
+function setInvalidButtonEditingData() {
   buttonEditingData.classList.add("button_bad");
   buttonEditingData.classList.remove("button_good");  
 }
-function setValidEditingData() {
+function setValidButtonEditingData() {
   buttonEditingData.classList.add("button_good"); 
   buttonEditingData.classList.remove("button_bad");
 }
 
-function setInvalidPasswordEdit() {
+function setInvalidButtonPasswordEdit() {
   buttonPasswordEdit.classList.add("button_bad"); 
   buttonPasswordEdit.classList.remove("button_good");
 }
-function setValidPasswordEdit() {
+function setValidButtonPasswordEdit() {
   buttonPasswordEdit.classList.add("button_good");
   buttonPasswordEdit.classList.remove("button_bad");  
 }
@@ -415,7 +425,8 @@ updateUserData ();
       if(res.success) {
         updateUserData();
         loaderBox.innerHTML = "";
-        setValidPasswordEdit();
+        setFormSuccess(form);
+        setValidButtonPasswordEdit();
         setTimeout(function () {
           modalPasswordEdit.classList.add("modal_close");
         }, 2000);
@@ -426,16 +437,13 @@ updateUserData ();
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";
-      setInvalidPasswordEdit();                               
-      setFormErrors(form, errors, verified);               //////// !!!
+      setInvalidButtonPasswordEdit();                               
+      setFormErrors(form, errors);               //////// !!!
       alert("ERROR!");
     });
 
     if(values.oldPassword === null || values.oldPassword === "") {
       errors.oldPassword = 'This field is required';
-    }
-    else {
-      verified.oldPassword = 'All right';
     }
     
     if(values.newPassword === null || values.newPassword === "") {
@@ -444,9 +452,6 @@ updateUserData ();
     else if (values.password == values.newPassword) {
       errors.newPassword = 'The new password cannot be the same as the old';
     }
-    else {
-      verified.newPassword = 'All right';
-    }
 
     if(values.newPasswordRep === null || values.newPasswordRep === "") {
       errors.newPasswordRep = 'This field is required';
@@ -454,11 +459,8 @@ updateUserData ();
     else if (values.newPassword != values.newPasswordRep) {
       errors.newPasswordRep = 'New password mismatch';
     }
-    else {
-      verified.newPasswordRep = 'All right';
-    }
 
-    setFormErrors(form, errors, verified);
+    setFormErrors(form, errors);
   });
 })();
 
@@ -495,7 +497,8 @@ updateUserData ();
       if(res.success) {
         updateUserData();
         loaderBox.innerHTML = "";
-        setValidEditingData();
+        setFormSuccess(form);
+        setValidButtonEditingData();
         setTimeout(function () {
           modalEditingData.classList.add("modal_close");
         }, 2000);
@@ -509,8 +512,8 @@ updateUserData ();
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                            
-      setFormErrors(form, errors, verified); 
-      setInvalidEditingData();               //////// !!!
+      setFormErrors(form, errors); 
+      setInvalidButtonEditingData();               //////// !!!
       alert("ERROR!");
     });
 
@@ -519,9 +522,6 @@ updateUserData ();
     }
     else if(!mailCheck(values.email)) {
       errors.email = 'Please enter a valid email address (your entry is not in the format "somebody@example.com")';
-    }
-    else {
-      verified.email = 'All right';
     }
 
     if(values.name === null || values.name === "") {
@@ -533,9 +533,6 @@ updateUserData ();
     else if(values.name.length < 3 || values.name.length >= 20) {
       errors.name = 'Your name is too short or too long';
     }
-    else {
-      verified.name = 'All right';
-    }
 
     if(values.surname === null || values.surname === "") {
       errors.surname = 'This field is required';
@@ -545,9 +542,6 @@ updateUserData ();
     }
     else if(values.surname.length < 3 || values.surname.length >= 20) {
       errors.surname = 'Your surname is too short or too long';
-    }
-    else {
-      verified.surname = 'All right';
     }
 
     if(values.location === null || values.location === "") {
@@ -559,9 +553,6 @@ updateUserData ();
     else if(values.location.length < 3 || values.location.length >= 20) {
       errors.location = 'Location name is too short or too long';
     }
-    else {
-      verified.location = 'All right';
-    }
 
     if(age.value < 0 || age.value >= 100) {
       errors.age = 'This age is not valid';
@@ -569,18 +560,12 @@ updateUserData ();
     else if(values.age === null || values.age === "") {
       errors.age = 'This field is required';
     }
-    else {
-      verified.age = 'All right';
-    }
 
     if(values.avatar.length === 0) {
       errors.avatar = 'You forgot to choose a photo';
     }
-    else {
-      verified.avatar = 'All right';
-    }
 
-    setFormErrors(form, errors, verified);
+    setFormErrors(form, errors);
   });
 })();
 
