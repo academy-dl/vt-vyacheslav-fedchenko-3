@@ -60,6 +60,29 @@ window.addEventListener("keydown", function(event){
   }
 });
 
+/* форма Delete account */
+
+let modalProfileDelete = document.querySelector(".modal_profile-delete-js"); 
+let buttonProfileDeleteOpen = document.querySelector(".profile__button-delete-js");
+let buttonProfileDeleteClose = document.querySelector(".modal__close_profile-delete-js");
+let profileDeleteButton = document.querySelector(".button_profile-delete-js"); 
+
+buttonProfileDeleteOpen.addEventListener("click", function(){
+  modalProfileDelete.classList.remove("modal_close");
+});
+
+buttonProfileDeleteClose.addEventListener("click", function(){
+  modalProfileDelete.classList.add("modal_close");
+  buttonProfileDeleteOpen.focus();
+});
+
+window.addEventListener("keydown", function(event){
+  if(!modalProfileDelete.classList.contains("modal_close") && event.code === "Escape") {
+    modalProfileDelete.classList.add("modal_close");
+    buttonProfileDeleteOpen.focus();
+  }
+});
+
 /* кнопка скролла наверх */
 
 (function() {
@@ -134,14 +157,14 @@ let inputFile = document.getElementById("form-profile-picture-editing-data");
 function setInvalidLabel(label) {
   label.classList.add("form__label-picture_bad");
   inputFile.oninput = function () { 
-    label.classList.remove("form__label-picture_bad"); //// ?
+    label.classList.remove("form__label-picture_bad");
   }
 }
 
 function setValidLabel(label) {
   label.classList.add("form__label-picture_good");
   inputFile.oninput = function() { 
-    label.classList.remove("form__label-picture_good"); //// ?
+    label.classList.remove("form__label-picture_good");
   }
 }
 
@@ -211,7 +234,7 @@ function errorMessageInputCreate(input, text) {
     input.removeEventListener("input", handlerInput);
   })
 
-  inputFile.onclick = function() {    //// ?
+  inputFile.onclick = function() {  
     message.remove(); 
   }
 }
@@ -232,7 +255,7 @@ function verifiedMessageInputCreate (input) {
     input.removeEventListener("input", handlerInput);
   })
 
-  inputFile.onchange = function() {    //// ?
+  inputFile.onchange = function() {  
     message.remove(); 
   }
 }
@@ -344,11 +367,11 @@ const loaderBox = document.querySelector(".loader-container_js");
 
 function createLoader () {
   return `
-  <div class="container-loader">
-    <div class="load-3">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="loader-line"></div>
+      <div class="loader-line"></div>
+      <div class="loader-line"></div>
     </div>
   </div>
   `
@@ -467,9 +490,9 @@ updateUserData ();
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";
-      setInvalidButtonPasswordEdit();                               
-      setFormErrors(form, errors);               //////// !!!
-      alert("ERROR!");
+      setInvalidButtonPasswordEdit(); 
+      errors.oldPassword = 'Forgot your password?';                                 
+      setFormErrors(form, errors); 
     });
   });
 })();
@@ -597,10 +620,11 @@ updateUserData ();
     })
 
     .catch(function(errors) {       
-      loaderBox.innerHTML = "";                            
+      loaderBox.innerHTML = "";  
+      errors.email = 'This email is already in use';  
+      errors.name = null;                     
       setFormErrors(form, errors); 
-      setInvalidButtonEditingData();               //////// !!!
-      alert("ERROR!");
+      setInvalidButtonEditingData(); 
     });
   });
 })();
@@ -622,8 +646,6 @@ if (window.FileList && window.File) {
 
 /* Delete profile */
 
-let profileDeleteButton = document.querySelector(".profile__button-delete-js");  //Error 403
-
 (function() {
   profileDeleteButton.addEventListener("click", function(event) {
     event.preventDefault();
@@ -644,7 +666,7 @@ let profileDeleteButton = document.querySelector(".profile__button-delete-js"); 
       if(res.success) {
         localStorage.removeItem("userId");
         localStorage.removeItem("token");
-        alert("User successfully deleted!");
+        //alert("User successfully deleted!");
         window.location.pathname = "/index.html";
       } else {
         throw alert("ERROR!");

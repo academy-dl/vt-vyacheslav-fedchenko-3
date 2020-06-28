@@ -372,11 +372,11 @@ const loaderBox = document.querySelector(".loader-container_js");
 
 function createLoader () {
   return `
-  <div class="container-loader">
-    <div class="load-3">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="loader-line"></div>
+      <div class="loader-line"></div>
+      <div class="loader-line"></div>
     </div>
   </div>
   `
@@ -509,24 +509,27 @@ function createLoader () {
 
     .then(function (json) {
       if(json.success) {
-        let user = json.data;
+        //let user = json.data;
         loaderBox.innerHTML = "";
         setFormSuccess(form);
         setValidButtonRegister();
-        alert(`User ${user.name} ${user.surname} successfully registered`);
+        //alert(`User ${user.name} ${user.surname} successfully registered`);
         setTimeout(function () {
           modalRegister.classList.add("modal_close");
         }, 2000);
       } else {
-        throw json.errors
+        throw json.errors;
       }
     })
     
     .catch(function(errors) {       
-      loaderBox.innerHTML = "";                               
+      loaderBox.innerHTML = "";  
+      if(errors.email) {
+        errors.email = 'This email is already in use';     
+      }
       setFormErrors(form, errors);  
-      setInvalidButtonRegister();                   //////// !!!
-      alert(`${JSON.stringify(errors, null, 2)}`);
+      setInvalidButtonRegister();      
+      //alert(`${JSON.stringify(errors, null, 2)}`);
     });
   });
 })();
@@ -577,9 +580,9 @@ function createLoader () {
       if(json.success) {
         let data = json.data;
         loaderBox.innerHTML = "";
-        setFormSuccess(form);
         setValidButtonSingIn();
-        alert(`User with Id ${data.userId} authenticated successfully`); 
+        setFormSuccess(form);
+        //alert(`User with Id ${data.userId} authenticated successfully`); 
         setTimeout(function () {
           modalSingIn.classList.add("modal_close"); 
           mobileHeader.classList.remove("mobile-header_open");
@@ -587,13 +590,14 @@ function createLoader () {
         localStorage.setItem("userId", data.userId);
         updateToken(data.token);
       } else {
-        throw alert("ERROR! This combination, mail and password were not found!");
+        throw errors;
       }
     })
 
     .catch(function(errors) {       
       loaderBox.innerHTML = "";  
-      setInvalidButtonSingIn();                             
+      setInvalidButtonSingIn();    
+      errors.email = 'This combination, mail and password were not found!';             
       setFormErrors(form, errors);
     });
   });
@@ -610,10 +614,10 @@ function createLoader () {
     const name = form.querySelector(".name-js");
     const message = form.querySelector(".message-js");
     const email = form.querySelector(".form__input email-js");
-    let errors = {};
     let messageValues = {}; 
     messageValues.to = values.email;
     messageValues.body = JSON.stringify(values);
+    let errors = {};
 
     if(values.name === null || values.name === "") {
       errors.name = 'This field is required';
@@ -704,20 +708,22 @@ function createLoader () {
     .then(function (json) {
       if(json.success) {
         loaderBox.innerHTML = "";
-        alert(`User successfully subscribed to email newsletter`);
+        //alert(`User successfully subscribed to email newsletter`);
         setFormSuccess(form);
         setValidButtonMessage();
         setTimeout(function () {
           modalMessage.classList.add("modal_close"); 
         }, 2000);
       } else {
-        throw alert("This mail is already subscribed to the newsletter")
+        throw errors;
       }
     })
-
+    
     .catch(function(errors) {       
       loaderBox.innerHTML = "";                               
       setInvalidButtonMessage(); 
+      errors.email = 'This mail is already subscribed to the newsletter';
+      setFormErrors(form, errors);
     });
   });
 })();

@@ -71,8 +71,6 @@
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    color: #fff;
   }
   
   &__bottom-panel {
@@ -114,12 +112,18 @@
     }
     
     &_active {
-      background-color: #000;
+      background-color: $black;
     }
     
     &:not(.slider__dot_active):hover, &:not(.slider__dot_active):focus {
-      background-color: gray;
-    }
+			background-color: $gray;
+		}
+		
+		&:disabled {
+			background-color: $light-gray;
+			user-select: none;
+			cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
+		}
   }
   
   &__button {
@@ -454,40 +458,9 @@
 		height: 100%;
 		background-color: $light-gray;
 	}
-
-	&__btn {
-		position: absolute;
-		top: 44.7%;
-		border: none;
-		background-color: transparent;
-		fill: $black;
-		transition: fill 0.4s;
-		cursor: pointer;
-
-		@media (max-width: 600px) {
-			top: 44.5%;
-		}
-
-		&_back {
-			left: 15px;
-
-			@media (max-width: 600px) {
-				left: 0;
-			}
-		}
-
-		&_forward {
-			right: 15px;
-
-			@media (max-width: 600px) {
-				right: 0;
-			}
-		}
-	}
 }
 
 .swiper {
-
 	&-container {
 		width: 100%;
 		height: auto;
@@ -498,11 +471,19 @@
 	}
 
 	&-button {
+		border: none;
+		background-color: transparent;
+
+		&:disabled {
+			fill: $gray;
+			user-select: none;
+			cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
+		}
 
 		&-prev {
 			width: initial;
 			right: auto;
-			left: 21px;
+			left: 15px;
 			
 			@media (max-width: 600px) {
 				left: 6px;
@@ -516,7 +497,7 @@
 
 		&-next {
 			width: initial;
-			right: 21px;
+			right: 15px;
 			left: auto;
 		
 			@media (max-width: 600px) {

@@ -151,10 +151,28 @@
         </button>
       </div>
     </div>
+    <div class="modal modal_close modal_profile-delete-js">
+      <div class="modal__content">
+        <div class="form form_modal form_modal-profile-delete">
+          <p class="form__text">Are you sure you want to delete your account?</p>
+          @@include('button/index.html', {
+            "type": "submit",
+            "class": "form__submit-button form__submit-button_3 button_white button_profile-delete-js",
+            "text": "Delete account"
+            })
+        </div>
+        <button aria-label="Button close" type="button" class="modal__close modal__close_profile-delete-js">
+          <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.82861" width="32" height="4" rx="2" transform="rotate(45 2.82861 0)" />
+            <rect y="22.6289" width="32" height="4" rx="2" transform="rotate(-45 0 22.6289)" />
+          </svg>
+        </button>
+      </div>
+    </div>
     <button aria-label="Button top" class="top-button">
-      <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.300781" y="12.5786" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300781 12.5786)" fill="#070707"/>
-        <rect x="21.5801" y="14.7" width="16.5512" height="3" rx="1.5" transform="rotate(-135 21.5801 14.7)" fill="#070707"/>
+      <svg width="24" height="15" viewBox="0 0 24 15" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.300781" y="12.5786" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300781 12.5786)" />
+        <rect x="21.5801" y="14.7" width="16.5512" height="3" rx="1.5" transform="rotate(-135 21.5801 14.7)" />
       </svg>                      
     </button>
     <div class="loader-container_js"></div>
