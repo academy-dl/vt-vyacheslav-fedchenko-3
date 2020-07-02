@@ -735,8 +735,8 @@ function createLoader () {
   let cardsBox = document.querySelector(".blog");
   let allValuesPage = getValuesFromUrl();
 
-  const buttonBack = document.querySelector(".selector-btn_back");
-  const buttonNext = document.querySelector(".selector-btn_forward");
+  const buttonBack = document.querySelector(".selector__btn_back");
+  const buttonNext = document.querySelector(".selector__btn_forward");
 
   function createLoader () {
     return `
@@ -1057,19 +1057,19 @@ function createLoader () {
   let pages = 0;
 
   function createPagination (countPage, activePage) {
-    let links = document.querySelector(".selector-pages");
+    let links = document.querySelector(".selector__pages");
     links.innerHTML = "";
     
     for(let i = 0; i < countPage; i++) {
       let link = document.createElement("a");
-      link.classList.add("selector-link");
+      link.classList.add("selector__link");
       link.setAttribute("href", "#");
       link.setAttribute("aria-label", "Page" + " " + (i+1));
       page = activePage;
       pages = Math.ceil(countPage);
       
       if(activePage === i+1){
-        link.classList.add("selector-link_active");       
+        link.classList.add("selector__link_active");       
       }
       link.innerHTML = i+1; 
       link.addEventListener("click", function(event){

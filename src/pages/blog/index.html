@@ -17,10 +17,10 @@
       "class": "header header_2",
       "class__home-link": "header__home-link header__hover",
       "class__blog-link": "header__nav-item header__active header__hover",
-      "class__profile-link": "header__nav-item header__profile_js header__hover hidden-block",
+      "class__profile-link": "header__nav-item header__profile header__profile_js header__hover hidden-block",
       "class__home-link-mobile": "mobile-header__nav-item header__hover",
       "class__blog-link-mobile": "mobile-header__nav-item mobile-header__nav-item_active header__hover",
-      "class__profile-link-mobile": "mobile-header__nav-item mobile-header__profile_js header__hover hidden",
+      "class__profile-link-mobile": "mobile-header__nav-item mobile-header__profile mobile-header__profile_js header__hover hidden",
     })
     <main>
       <div class="container">
@@ -104,15 +104,15 @@
         <ul class="blog list-point-none">
         </ul>
         <div class="selector">
-          <button aria-label="Button back" class="selector-btn selector-btn_back">
+          <button aria-label="Button back" class="selector__btn selector__btn_back">
             <svg width="15" height="24" viewBox="0 0 15 24" xmlns="http://www.w3.org/2000/svg">
               <rect x="12.5791" y="23.6992" width="16.5512" height="3" rx="1.5" transform="rotate(-135 12.5791 23.6992)" />
               <rect x="14.7002" y="2.41992" width="16.5512" height="3" rx="1.5" transform="rotate(135 14.7002 2.41992)" />
             </svg>                
           </button>
-          <ul class="selector-pages list-point-none">
+          <ul class="selector__pages list-point-none">
           </ul>
-          <button aria-label="Button forward" class="selector-btn selector-btn_forward">
+          <button aria-label="Button forward" class="selector__btn selector__btn_forward">
             <svg width="15" height="24" viewBox="0 0 15 24" xmlns="http://www.w3.org/2000/svg">
               <rect x="2.42139" y="0.300781" width="16.5512" height="3" rx="1.5" transform="rotate(45 2.42139 0.300781)" />
               <rect x="0.300049" y="21.5801" width="16.5512" height="3" rx="1.5" transform="rotate(-45 0.300049 21.5801)" />
@@ -210,7 +210,7 @@
     @@include('footer/index.html', { 
       "class": "footer footer_2"
     })
-    <div class="loader-container_js"></div>
+    <div class="loader-container loader-container_js"></div>
     <script src="./index.js"></script>
   </body>
 </html>
