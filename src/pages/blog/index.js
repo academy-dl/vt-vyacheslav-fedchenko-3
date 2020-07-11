@@ -731,7 +731,7 @@ function createLoader () {
 /* фильтр */
 
 (function () {
-  let tagsBox = document.querySelector(".filter__tag");
+  let tagsBox = document.querySelector(".filter__tag-box");
   let cardsBox = document.querySelector(".blog");
   let allValuesPage = getValuesFromUrl();
 

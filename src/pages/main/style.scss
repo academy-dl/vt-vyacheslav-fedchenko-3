@@ -279,6 +279,10 @@
 	padding-top: 60px;
 	padding-bottom: 1px;
 
+	@media (max-width: 800px) {
+		padding-bottom: 2px;
+	}
+
 	@media (max-width: 600px) {
 		padding-top: 40px;
 	}
@@ -309,7 +313,6 @@
 
 	&__list {
 		display: flex;
-		justify-content: space-between;
 		flex-wrap: wrap;
 		padding-top: 20px;
 		margin-top: 0;
@@ -328,19 +331,19 @@
 
 	&__item {
 		margin-bottom: 44px;
-		margin-left: 11.5px;
-		margin-right: 11.5px;
-		max-width: 180px;
+		width: 20%;
 
-		@media (max-width: 768px) {
+		@media (max-width: 970px) {
 			margin-bottom: 40px;
-			margin-left: 10.5px;
-			margin-right: 10.5px;
+			width: 25%;
+		}
+
+		@media (max-width: 750px) {
+			width: 33%;
 		}
 
 		@media (max-width: 600px) {
-			margin-left: 11px;
-			margin-right: 11px;
+			width: 50%;
 		}
 
 		&:nth-child(3) > .skills__loader > .skills__loader-progress {
@@ -354,12 +357,17 @@
 			color: $gray;
 			margin-top: 16px;
 			margin-bottom: 23px;
+
+			@media (max-width: 600px) {
+				margin-bottom: 24px;
+			}
 		}
 	}
 
 	&__loader {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 
 		&-progress {
 			font-weight: bold;
@@ -488,7 +496,7 @@
 			left: 15px;
 			
 			@media (max-width: 600px) {
-				left: 6px;
+				left: 0;
 				top: 49.5%;
 			}
 	
@@ -503,7 +511,7 @@
 			left: auto;
 		
 			@media (max-width: 600px) {
-				right: 6px;
+				right: 0;
 				top: 49.5%;
 			}
 	
