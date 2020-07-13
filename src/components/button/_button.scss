@@ -3,15 +3,14 @@
 .button {
   padding: 7px 17px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: $normal;
   line-height: 22px;
   color: $white;
   cursor: pointer;
-  border: 2.5px solid #070707;
+  border: 2.5px solid $black;
   box-sizing: border-box;
   border-radius: 30px;
-  transition: color .4s;
-  transition: background-color .4s;
+  transition: color .4s, background-color .4s;
 
   &_white {
 		color: $black;
@@ -36,13 +35,18 @@
 
   &_modal {
     background-color: $white;
-    color: #E5E5E5;
-    border-color: #E5E5E5;
-    transition: all .4s;
+    color: $light-gray;
+    border-color: $light-gray;
+    transition: color .4s, border-color .4s;
 
     &:hover {
-			color: #828282;
-			border-color: #828282;
+			color: $gray;
+			border-color: $gray;
+    }
+
+    &:focus {
+			color: $gray;
+			border-color: $gray;
     }
     
     &:active {
@@ -51,10 +55,40 @@
     }
   }
 
+  &_bad {
+    background-color: $white;
+    color: $red;
+    border-color: $red;
+    transition: color .4s, border-color .4s;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $red;
+      border-color: $red;
+			color: $white;
+    }
+  }
+
+  &_good {
+    background-color: $white;
+    color: $green-2;
+    border-color: $green-2;
+    transition: color .4s, border-color .4s;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $green-2;
+      border-color: $green-2;
+			color: $white;
+    }
+  }
+
   &:disabled {
 		background-color: $white;
-		color: #E5E5E5;
-		border-color: #E5E5E5;
-    cursor: not-allowed;
+		color: $light-gray;
+		border-color: $light-gray;
+    cursor: url(../../static/images/cursor_disabled.svg), not-allowed;
   }
 }

@@ -1,16 +1,28 @@
 /* цвета */
 
-$black: #070707;
-$gray: #828282;
-$white: #ffffff;
+$black: #070707; /* шрифт и кнопки */
+$dark: rgba(7, 7, 7, 0.85); /* footer портфолио */
+$gray: #828282; /* шрифт и кнопки */
+$light-gray: #E5E5E5; /* модальные окна */
+$light-gray-2: #F6F6F6; /*фон footer*/
+$white: #ffffff; /* шрифт и кнопки */
+$red: #EB3617; /* disabled и звездочки у элементов в формах */
+$light: rgba(246, 246, 246, 0.99); /* overflow для модальных окон и мобильного меню */
+$green-2: #03BC3C;
 
+$dark-blue:#2176FF;  /* теги в блоге */
+$light-blue: #33A1FD;
+$yellow: #FDCA40;
+$turquoise: #57E2E5;
+$orange: #F79824;  /* + фокус на элементах */
+$pink: #E08DAC;
+$violet: #6A7FDB;
+$green: #45CB85;
 
 /* высота шрифтов */
 
-$tiny: 8px;
-$very-small: 12px;
-$small: 16px;
-$normal: 20px;
-$large: 36px;
-$big: 38px;
-$very-big: 60px;
+$small: 14px;  /* доп. элементы */
+$normal: 18px; /* основные элементы */
+$large: 24px; /* заголовки блогов */
+$big: 34px; /* заголовки разделов */
+$very-big: 47px; /* заголовки страницы */
